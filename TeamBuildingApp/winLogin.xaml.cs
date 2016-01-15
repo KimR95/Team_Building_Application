@@ -19,9 +19,15 @@ namespace TeamBuildingApp
     /// </summary>
     public partial class winLogin : Window
     {
+        Library lib;
+        Administrator admin;
+
         public winLogin()
         {
             InitializeComponent();
+            lib = Library.Instance;
+            admin = null;
+            
         }
 
        
@@ -128,11 +134,21 @@ namespace TeamBuildingApp
         private void btnEnter_Click(object sender, RoutedEventArgs e)
         {
             //Login Validation 
+            admin = lib.validateLogin(txtAdminUsername.Text, passPassword.Password);
 
-            //Navigation 
-            winAdministrator wa = new winAdministrator();
-            this.Close();
-            wa.Show();
+            if (admin != null)
+            {
+                //Navigation 
+                winAdministrator wa = new winAdministrator();
+                this.Close();
+                wa.Show();
+            }
+            else
+            {
+                MessageBox.Show("Crendentials are incorrect", "Invalid Login", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtAdminUsername.Clear();
+                passPassword.Clear();
+            }
         }
 
        

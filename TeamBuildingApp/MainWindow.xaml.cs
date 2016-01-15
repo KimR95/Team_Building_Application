@@ -21,16 +21,50 @@ namespace TeamBuildingApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        Library lib;
+
         public MainWindow()
         {
+            lib = Library.Instance;
             InitializeComponent();
-           
-            pbTimings();
-           
+            lib.disconnectDB();
+            startUp();
+            
+            
         }
+
+        private void startUp()
+        {
+            
+            this.Show(); 
+            //System.Threading.Thread.
+
+            string connected = lib.connectToDb();
+            if (connected == "Connected")
+            {
+                //progBar.Value += (progBar.Maximum / 4);
+                Application.Current.Exit += new ExitEventHandler(applicationClose);
+
+                //slow down progress bar for ui reasons
+                pbTimings();
+            }
+            else
+            {
+                
+                
+                System.Threading.Thread.Sleep(3000);
+                MessageBox.Show(connected, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
+            }
+        }
+            
+        
+
+       
 
         private void pbTimings()
         {
+            
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -45,10 +79,19 @@ namespace TeamBuildingApp
             if (progBar.Value == progBar.Maximum)
             {
                 (sender as DispatcherTimer).Stop();
+                
                 winLogin wl = new winLogin();
-                wl.Show();
                 this.Close();
+                wl.Show();
+               
             }
+        }
+
+        private void applicationClose(object sender, EventArgs e)
+        {
+            lib.disconnectDB();
+          
+ 
         }
  
        
