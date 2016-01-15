@@ -63,8 +63,13 @@
     <Compile Include="Administrator.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="Library.cs" />
+    <Compile Include="Question.cs" />
+    <Compile Include="Student.cs" />
     <Compile Include="winAdministrator.xaml.cs">
       <DependentUpon>winAdministrator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="winGenerateCode.xaml.cs">
+      <DependentUpon>winGenerateCode.xaml</DependentUpon>
     </Compile>
     <Compile Include="winLogin.xaml.cs">
       <DependentUpon>winLogin.xaml</DependentUpon>
@@ -88,6 +93,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="winAdministrator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winGenerateCode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,6 +151,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\iconTransparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tickICon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\crossIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

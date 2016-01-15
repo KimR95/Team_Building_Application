@@ -9,7 +9,7 @@ using MySql.Data.MySqlClient;
 
 namespace TeamBuildingApp
 {
-    class Administrator
+    public class Administrator
     {
 
         private string fname;
@@ -136,5 +136,16 @@ namespace TeamBuildingApp
             }
             return false;
         }
+
+        public String getUsername()
+        {
+            return this.username;
+        }
+
+        public String getCompanyName()
+        {
+            return this.companyName;
+        }
     }
+
 }

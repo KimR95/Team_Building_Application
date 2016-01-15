@@ -19,9 +19,13 @@ namespace TeamBuildingApp
     /// </summary>
     public partial class winAdministrator : Window
     {
-        public winAdministrator()
+        private Administrator admin;
+        
+        public winAdministrator(Administrator ad)
         {
             InitializeComponent();
+            this.admin = ad;
+           
         }
 
         private void btnLogOut_Click(object sender, RoutedEventArgs e)
@@ -36,6 +40,12 @@ namespace TeamBuildingApp
             winNewAdmin wNA = new winNewAdmin();
             this.Close();
             wNA.Show();
+        }
+
+        private void btnGenerateCode_Click(object sender, RoutedEventArgs e)
+        {
+            winGenerateCode wGA = new winGenerateCode(this.admin);
+            wGA.Show();
         }
     }
 }

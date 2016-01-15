@@ -21,6 +21,9 @@ namespace TeamBuildingApp
     {
         Library lib;
         Administrator admin;
+        string checkNo;
+        string checkfn;
+        string checksn;
 
         public winLogin()
         {
@@ -83,10 +86,30 @@ namespace TeamBuildingApp
 
         private void btnEnterS_Click(object sender, RoutedEventArgs e)
         {
+            if(checkNo != "check" && txtStudentNo.Text != "" 
+                && checkfn != "check" && txtStudentName.Text != "" 
+                    && checksn != "check" && txtStudentSecondName.Text != "" && txtClassCode.Text != "")
+            {
+                if(lib.checkCode(txtStudentNo.Text, txtStudentName.Text, txtStudentSecondName.Text, txtClassCode.Text)!= null)
+                {
+                    winQuestionaire wq = new winQuestionaire();
+                    this.Close();
+                    wq.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid class code, contact administrator.", "Invalid Code", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ensure all details have been entered", "Input Validation", MessageBoxButton.OK, MessageBoxImage.Error);
+                checkNo = "";
+                checkfn = "";
+                checksn = "";
+            }
            
-            winQuestionaire wq = new winQuestionaire();
-            this.Close();
-            wq.Show();
+           
         }
 
        
@@ -96,6 +119,7 @@ namespace TeamBuildingApp
         private void txtStudentName_MouseEnter(object sender, MouseEventArgs e)
         {
 
+            checkfn = "check";
             txtStudentName.Clear();
             txtStudentName.FontStyle = FontStyles.Normal;
             txtStudentName.Foreground.Opacity = 100;
@@ -113,6 +137,7 @@ namespace TeamBuildingApp
 
         private void txtStudentNo_MouseEnter(object sender, MouseEventArgs e)
         {
+            checkNo = "check";
             txtStudentNo.Clear();
             txtStudentNo.FontStyle = FontStyles.Normal;
             txtStudentNo.Foreground.Opacity = 100;
@@ -120,6 +145,7 @@ namespace TeamBuildingApp
 
         private void txtStudentSecondName_MouseEnter(object sender, MouseEventArgs e)
         {
+            checksn = "check";
             txtStudentSecondName.Clear();
             txtStudentSecondName.FontStyle = FontStyles.Normal;
             txtStudentSecondName.Foreground.Opacity = 100;
@@ -139,7 +165,7 @@ namespace TeamBuildingApp
             if (admin != null)
             {
                 //Navigation 
-                winAdministrator wa = new winAdministrator();
+                winAdministrator wa = new winAdministrator(admin);
                 this.Close();
                 wa.Show();
             }

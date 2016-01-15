@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.IO;
 
 namespace TeamBuildingApp
 {
@@ -28,6 +29,8 @@ namespace TeamBuildingApp
             lib = Library.Instance;
             InitializeComponent();
             lib.disconnectDB();
+
+            
             startUp();
             
             

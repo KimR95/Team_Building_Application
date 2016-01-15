@@ -19,9 +19,70 @@ namespace TeamBuildingApp
     /// </summary>
     public partial class winNewAdmin : Window
     {
+        Library lib;
+        Boolean usernameCheck;
+
         public winNewAdmin()
         {
             InitializeComponent();
+            lib = Library.Instance;
+            
+        }
+
+  
+
+        private void txtUsername_MouseLeave(object sender, MouseEventArgs e)
+        {
+            
+            if(txtUsername.Text != "")
+            {
+                usernameCheck = lib.checkUsername(txtUsername.Text);
+                
+                //if username is free
+                if (usernameCheck == false)
+                {
+                    imgTick.Visibility = System.Windows.Visibility.Visible;
+                    imgCross.Visibility = System.Windows.Visibility.Hidden;
+                }
+                else
+                {
+                    imgTick.Visibility = System.Windows.Visibility.Hidden;
+                    imgCross.Visibility = System.Windows.Visibility.Visible;
+                    
+                }
+            }
+        }
+
+        private void txtUsername_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtUsername.Text != "")
+            {
+                usernameCheck = lib.checkUsername(txtUsername.Text);
+
+                //if username is free
+                if (usernameCheck == false)
+                {
+                    imgTick.Visibility = System.Windows.Visibility.Visible;
+                    imgCross.Visibility = System.Windows.Visibility.Hidden;
+                }
+                else
+                {
+                    imgTick.Visibility = System.Windows.Visibility.Hidden;
+                    imgCross.Visibility = System.Windows.Visibility.Visible;
+
+                }
+            }
+        }
+
+        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        {
+            string message = ""; 
+            if (usernameCheck == false)
+            {
+                message = lib.addAdministrator(txtFName.Text, txtSName.Text, txtEmailAddress.Text, txtCompanyName.Text, txtUsername.Text);
+            }
+
+            MessageBox.Show(message);
         }
     }
 }

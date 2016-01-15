@@ -1,7 +1,7 @@
 ﻿<Window x:Class="TeamBuildingApp.winAdministrator"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="TBA - Administrator Panel" Height="390.572" Width="492.143" ResizeMode="NoResize" Icon="Images/iconTransparent.png">
+        Title="TBA - Administrator Panel" Height="390.572" Width="492.143" ResizeMode="NoResize" Icon="Images/iconTransparent.png" WindowStartupLocation="CenterScreen">
     <Grid Background="#FFC5D7F8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="238*"/>
@@ -10,7 +10,7 @@
         <Grid HorizontalAlignment="Left" Height="338" Margin="10,10,0,0" VerticalAlignment="Top" Width="459" Background="White" Grid.ColumnSpan="2">
             <Button x:Name="btnNewAdmin" Content="New Administrator" HorizontalAlignment="Left" Height="40" Margin="40,94,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Click="btnNewAdmin_Click"/>
             <Label Content="Administrator Panel" HorizontalAlignment="Left" Height="51" Margin="130,24,0,0" VerticalAlignment="Top" Width="196" FontSize="20"/>
-            <Button Content="Generate Class Code" HorizontalAlignment="Left" Height="40" Margin="40,236,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5"/>
+            <Button x:Name="btnGenerateCode" Content="Generate Class Code" HorizontalAlignment="Left" Height="40" Margin="40,236,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Click="btnGenerateCode_Click"/>
             <Button Content="View Class Code" HorizontalAlignment="Left" Height="40" Margin="260,94,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5"/>
             <Button Content="View Group Solutions" HorizontalAlignment="Left" Height="40" Margin="260,165,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5"/>
             <Button Content="View Administrators" HorizontalAlignment="Left" Height="40" Margin="40,165,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5"/>
