@@ -15,6 +15,7 @@ namespace TeamBuildingApp
         private static Library instance;
         private static DBConnection dbC;
         private static List<Question> questions;
+        private static Student stud; 
 
         public static Library Instance
         {
@@ -54,10 +55,11 @@ namespace TeamBuildingApp
 
         public void disconnectDB()
         {
-            if (dbC.getConnection() != null)
+            try
             {
                 dbC.DBDisconnect();
             }
+            catch(Exception){}
         }
 
        
@@ -185,6 +187,7 @@ namespace TeamBuildingApp
                 
             }
 
+            read.Close();
             return questions;
            
     
@@ -194,18 +197,32 @@ namespace TeamBuildingApp
         {
             MySqlCommand cmd = new MySqlCommand("SELECT * FROM CLASSCODES WHERE CLASS_CODE = '" + classcode + "'", dbC.getConnection());
             MySqlDataReader read = cmd.ExecuteReader();
-            read.Close();
+            
             if(read.HasRows)
             {
                 //format new student into type and store on db
+                read.Close();
+                stud = new Student(no, fname, sname, classcode,dbC.getConnection());
                 
-                Student st = new Student(no, fname, sname, classcode);                
-                return st;
+                return stud;
             }
             else
             {
+                read.Close();
                 return null;
             }
+
+           
+        }
+
+        public void completedResults(int red, int blue, int green, int yellow)
+        {
+            stud.updateResults(red, blue, green, yellow);
+        }
+
+        public void logOut()
+        {
+            instance = null;
         }
     }
 }

@@ -12,15 +12,16 @@
             <Button x:Name="btnEnter" Content="Enter" HorizontalAlignment="Left" Height="41" Margin="188,218,0,0" VerticalAlignment="Top" Width="143" FontSize="18" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Visibility="Hidden" Click="btnEnter_Click"/>
             <Label x:Name="lblDesc" Content="Student Login" HorizontalAlignment="Left" Height="37" Margin="10,4,0,0" VerticalAlignment="Top" Width="185" FontSize="16" FontWeight="Bold" Visibility="Hidden"/>
             <Label x:Name="lblStudentLogin" HorizontalContentAlignment="Center" Content="Please retrieve class code from an administrator and enter below." HorizontalAlignment="Left" Height="47" Margin="32,109,0,0" VerticalAlignment="Top" Width="458" FontSize="14" RenderTransformOrigin="0.5,0.5" Visibility="Hidden"/>
-            <TextBox x:Name="txtClassCode" HorizontalAlignment="Left" Height="35" Margin="163,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Visibility="Hidden"/>
+            <TextBox x:Name="txtClassCode" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="35" Margin="163,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" Visibility="Hidden" FontSize="16"/>
             <Button x:Name="btnEnterS" Content="Enter" HorizontalAlignment="Left" Height="41" Margin="188,218,0,0" VerticalAlignment="Top" Width="143" FontSize="18" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Click="btnEnterS_Click" Visibility="Hidden"/>
             <Button x:Name="btnBack" Content="" HorizontalAlignment="Left" Height="69" Margin="10,205,0,0" VerticalAlignment="Top" Width="101" BorderBrush="{x:Null}" Click="btnBack_Click" Visibility="Hidden">
                 <Button.Background>
                     <ImageBrush ImageSource="Images/BackArrow.png"/>
                 </Button.Background>
             </Button>
-            <TextBox x:Name="txtStudentName" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="25" Margin="175,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Visibility="Hidden" Text="First Name" MouseEnter="txtStudentName_MouseEnter" Foreground="#7F000000"/>
             <TextBox x:Name="txtStudentNo" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="25" Margin="32,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122" Visibility="Hidden" Text="Student Number" Foreground="#7F000000" MouseEnter="txtStudentNo_MouseEnter"/>
+            <TextBox x:Name="txtStudentName" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="25" Margin="175,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Visibility="Hidden" Text="First Name" MouseEnter="txtStudentName_MouseEnter" Foreground="#7F000000"/>
+         
             <TextBox x:Name="txtStudentSecondName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="25" Margin="332,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138" Visibility="Hidden" Text="Second Name" Foreground="#7F000000" FontStyle="Italic" MouseEnter="txtStudentSecondName_MouseEnter"/>
             <Label x:Name="lblPass" Content="Enter Password" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="34" Margin="154,152,0,0" VerticalAlignment="Top" Width="206" FontSize="16" FontStyle="Italic" Foreground="#7F000000" Visibility="Hidden" MouseEnter="lblPass_MouseEnter"/>
         </Grid>
