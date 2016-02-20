@@ -38,6 +38,7 @@ namespace TeamBuildingApp
 
         private void btnAdmin_Click(object sender, RoutedEventArgs e)
         {
+           
             //hide buttons
             btnAdmin.Visibility = System.Windows.Visibility.Hidden;
             btnStudent.Visibility = System.Windows.Visibility.Hidden;

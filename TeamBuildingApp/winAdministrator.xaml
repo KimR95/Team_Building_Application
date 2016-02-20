@@ -12,7 +12,7 @@
             <Label Content="Administrator Panel" HorizontalAlignment="Left" Height="51" Margin="130,24,0,0" VerticalAlignment="Top" Width="196" FontSize="20"/>
             <Button x:Name="btnGenerateCode" Content="Generate Class Code" HorizontalAlignment="Left" Height="40" Margin="40,236,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Click="btnGenerateCode_Click"/>
             <Button Content="View Class Code" HorizontalAlignment="Left" Height="40" Margin="260,94,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5"/>
-            <Button Content="View Group Solutions" HorizontalAlignment="Left" Height="40" Margin="260,165,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5"/>
+            <Button Content="View Group Solutions" HorizontalAlignment="Left" Height="40" Margin="260,165,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Click="Button_Click"/>
             <Button Content="View Administrators" HorizontalAlignment="Left" Height="40" Margin="40,165,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5"/>
             <Button x:Name="btnLogOut" Content="Log Out" HorizontalAlignment="Left" Height="40" Margin="260,236,0,0" VerticalAlignment="Top" Width="139" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Click="btnLogOut_Click"/>
         </Grid>

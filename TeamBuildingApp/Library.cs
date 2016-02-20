@@ -22,10 +22,10 @@ namespace TeamBuildingApp
         private static List<Student> students;
         private static SortedList<List<Chromosome>, double> elite;
 
-        private int red_allowance;
-        private int blue_allowance;
-        private int green_allowance;
-        private int yellow_allowance;
+        private static double red_allowance;
+        private static double blue_allowance;
+        private static double green_allowance;
+        private static double yellow_allowance;
 
         private static Student stud;
 
@@ -240,12 +240,12 @@ namespace TeamBuildingApp
             instance = null;
         }
         
-        public void setAllowance(int red, int blue, int green, int yellow)
+        public void setAllowance(double red, double blue, double green, double yellow)
         {
-            this.red_allowance = red;
-            this.blue_allowance = blue;
-            this.green_allowance = green;
-            this.yellow_allowance = yellow;
+            red_allowance = red;
+            blue_allowance = blue;
+            green_allowance = green;
+            yellow_allowance = yellow;
         }
 
         public void generateGroups(string classCode, int groupSize)
@@ -295,9 +295,9 @@ namespace TeamBuildingApp
 
                 for (int k = 0; k <= students.Count; k++)
                 {
-                    if (j <= groupSize)
+                    if (j <= groupSize - 1)
                     {
-                        chromo.Genes.Add(new Gene(students[k]));
+                        chromo.Genes.Add(new Gene(students[k].getStudentNum()));
                         j = chromo.Count;
                     }
                     else
@@ -348,46 +348,64 @@ namespace TeamBuildingApp
             int yellow = 0;
             int score = 100;
 
+            
+
             //Count the instances of colours
-            foreach (Student stud in chromo)
+            foreach (Gene g in chromo)
             {
-                switch (stud.getPrimary())
+                foreach (Student stud in students)
                 {
-                    case "Red": red += 1; break;
-                    case "Blue": blue += 1; break;
-                    case "Green": green += 1; break;
-                    case "Yellow": yellow += 1; break;
+                    if (stud.getStudentNum() == g.ObjectValue.ToString())
+                    {
+                        switch (stud.getPrimary())
+                        {
+                            case "Red": red += 1; break;
+                            case "Blue": blue += 1; break;
+                            case "Green": green += 1; break;
+                            case "Yellow": yellow += 1; break;
+                        }
+
+                        break;
+                    }
                 }
             }
 
             //balancing formula -- based on idea that one of each is perfect. 
+            
 
-            if (red > chromo.Count * (red_allowance / 100))
+            if (red > System.Math.Round(chromo.Count * (red_allowance / 100)))
             {
                 //for every extra red a penalty of 4 - 4 being the worst penalty
-                score = score - (red - chromo.Count * (red_allowance / 100) * 4);
+                int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (red_allowance / 100)));
+                score = score - (allowance * 4);
             }
 
-            if (yellow > chromo.Count * (yellow_allowance / 100))
+            if (yellow > System.Math.Round(chromo.Count * (yellow_allowance / 100)))
             {
-                //for every extra red a penalty of 5 - 5 being the worst penalty
-                score = score - (yellow - chromo.Count * (yellow_allowance / 100) * 3);
+                //for every extra red a penalty of 5 - 5 being the worst penalty                
+                int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (yellow_allowance / 100)));
+                score = score - (allowance * 3);
             }
 
-            if (blue > chromo.Count * (blue_allowance / 100))
-            {
-                //for every extra blue a penalty of 2
-                score = score - (blue - chromo.Count * (blue_allowance / 100) * 2);
-            }
-
-            if (green > chromo.Count * (green_allowance / 100))
+            if (blue > System.Math.Round(chromo.Count * (blue_allowance / 100)))
             {
                 //for every extra blue a penalty of 2
-                score = score - (green - chromo.Count * (green_allowance / 100) * 2);
+                int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (blue_allowance / 100)));
+                score = score - (allowance * 2);
+                
+            }
+
+            if (green > System.Math.Round(chromo.Count * (green_allowance / 100)))
+            {
+                //for every extra blue a penalty of 2
+                int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (green_allowance / 100)));
+                score = score - (allowance * 2);
+               
             }
 
 
-            return 2.0;
+            Console.WriteLine(chromo.Id + "Fitness: " + score);
+            return score;
         }
 
         public static bool genTerminate(Population population, int currentGeneration, long currentEvaluation)
@@ -465,6 +483,7 @@ namespace TeamBuildingApp
 
             foreach (KeyValuePair<List<Chromosome>, double> pair in gS)
             {
+                Console.WriteLine("Structure" + pair.Key.ToString() + "average " + pair.Value);
                 elite.Add(pair.Key, pair.Value);
             }
         }

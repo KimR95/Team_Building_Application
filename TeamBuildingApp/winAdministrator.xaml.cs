@@ -20,11 +20,13 @@ namespace TeamBuildingApp
     public partial class winAdministrator : Window
     {
         private Administrator admin;
+        Library lib;
         
         public winAdministrator(Administrator ad)
         {
             InitializeComponent();
             this.admin = ad;
+            lib = Library.Instance;
            
         }
 
@@ -46,6 +48,16 @@ namespace TeamBuildingApp
         {
             winGenerateCode wGA = new winGenerateCode(this.admin);
             wGA.Show();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            double defaultA = (3 * (25/100));
+            decimal defaultB = (3 * (25 / 100));
+
+            lib.setAllowance(25, 25, 25, 25);
+            lib.generateGroups("k52zoxolck", 3);
+
         }
     }
 }
