@@ -1,0 +1,15 @@
+﻿<Window x:Class="TeamBuildingApp.winGenerateCode"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          Title="TBA - Generate Class Code" Height="324.501" Width="375.541" Icon="Images/iconTransparent.png" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FFC5D7F8">
+        <Grid HorizontalAlignment="Left" Height="265" Margin="10,10,0,0" VerticalAlignment="Top" Width="339" Background="White" RenderTransformOrigin="0.498,0.475">
+            <Label Content="Generate Class Code" HorizontalAlignment="Left" Height="36" VerticalAlignment="Top" Width="222" Margin="10,10,0,0" FontWeight="Bold" FontSize="16"/>
+            <Label Content="Class Name:" HorizontalAlignment="Left" Height="30" Margin="135,58,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="0.445,0.481" FontSize="14"/>
+            <TextBox x:Name="txtClassName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="39,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="279" TextAlignment="Center" FontSize="16" BorderBrush="#FFC5D7F8" BorderThickness="3"/>
+            <Button x:Name="btnGenerate" Content="Generate" HorizontalAlignment="Left" Height="42" Margin="125,213,0,0" VerticalAlignment="Top" Width="107" Background="White" FontSize="16" BorderThickness="5" BorderBrush="#FFC5D7F8" Click="btnGenerate_Click"/>
+            <Label x:Name="lblDisplay" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="" HorizontalAlignment="Left" Height="62" Margin="39,137,0,0" VerticalAlignment="Top" Width="279" BorderBrush="#FFC5D7F8" BorderThickness="1"/>
+        </Grid>
+    </Grid>
+
+</Window>

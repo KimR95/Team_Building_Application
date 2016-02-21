@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>GAF</id>
+    <version>2.1.1</version>
+    <title>Genetic Algorithm Framework for .Net</title>
+    <authors>John Newcombe</authors>
+    <owners>John Newcombe</owners>
+    <licenseUrl>http://aiframeworks.net/gaf</licenseUrl>
+    <projectUrl>http://aiframeworks.net/gaf</projectUrl>
+    <iconUrl>http://aiframeworks.net/App_Content/AIF/Files/GAF/GAF128.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This is a simple to use Genetic Algorithm Framework for .Net. See the project page for details on how to use this package.</description>
+    <summary>This is a simple to use Genetic Algorithm Framework for .Net.</summary>
+    <releaseNotes>Addition of PCL Version to package.</releaseNotes>
+    <copyright>Copyright John Newcombe 2015</copyright>
+    <language />
+  </metadata>
+</package>

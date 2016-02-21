@@ -1,0 +1,25 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="TeamBuildingApp.winQuestionaire"
+        Title="TBA - Questionaire" Height="636.269" Width="705.97" ResizeMode="NoResize" Icon="iconTransparent.png" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FFC5D7F8">
+        <Grid HorizontalAlignment="Left" Height="579" VerticalAlignment="Top" Width="669" Background="White" Margin="10,10,0,0">
+            <Label x:Name="lblTitle" Content="Questionaire" HorizontalAlignment="Left" Height="92" Margin="218,57,0,0" VerticalAlignment="Top" Width="244" FontSize="36"/>
+            <Label x:Name="lblRules" Content="Now it's time for a simple questionnaire that will determine &#xD;&#xA;the category you primarily belong to based on your &#xD;&#xA;characteristics. &#xD;&#xA;&#xD;&#xA;Read the questions or scenarios carefully and then choose &#xD;&#xA;the best fit answer from the selection by clicking on the &#xD;&#xA;corresponding button. You cannot return to the question so&#xD;&#xA;be sure before selecting the confirmation button.&#xD;&#xA;&#xD;&#xA;Please answer the questions as truthfully as possible &#xD;&#xA;for the most accurate results.  " HorizontalAlignment="Left" Height="341" Margin="71,137,0,0" VerticalAlignment="Top" Width="552" FontSize="20"/>
+            <Button x:Name="btnBegin" Content="Begin" HorizontalAlignment="Left" Height="50" Margin="261,483,0,0" VerticalAlignment="Top" Width="160" FontSize="18" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Click="btnBegin_Click"/>
+            <ProgressBar x:Name="progBarQuestions" HorizontalAlignment="Left" Height="36" Margin="63,10,0,0" VerticalAlignment="Top" Width="525" BorderBrush="#FFC5D7F8" Background="White" BorderThickness="5" Foreground="#FF0F55EC" Maximum="10" Visibility="Hidden"/>
+            <Button x:Name="btnAnswerA" Content="A" HorizontalAlignment="Left" Height="45" Margin="71,227,0,0" VerticalAlignment="Top" Width="50" BorderBrush="#FFC5D7F8" Background="White" BorderThickness="5" FontSize="20" FontWeight="Bold" Click="btnAnswerA_Click" Visibility="Hidden"/>
+            <Button x:Name="btnAnswerB" Content="B" HorizontalAlignment="Left" Height="45" Margin="71,300,0,0" VerticalAlignment="Top" Width="50" BorderBrush="#FFC5D7F8" Background="White" BorderThickness="5" FontSize="20" FontWeight="Bold" Visibility="Hidden" Click="btnAnswerB_Click"/>
+            <Button x:Name="btnAnswerC" Content="C" HorizontalAlignment="Left" Height="45" Margin="71,375,0,0" VerticalAlignment="Top" Width="50" BorderBrush="#FFC5D7F8" Background="White" BorderThickness="5" FontSize="20" FontWeight="Bold" Visibility="Hidden" Click="btnAnswerC_Click"/>
+            <Button x:Name="btnAnswerD" Content="D" HorizontalAlignment="Left" Height="45" Margin="71,449,0,0" VerticalAlignment="Top" Width="50" BorderBrush="#FFC5D7F8" Background="White" BorderThickness="5" FontSize="20" FontWeight="Bold" Visibility="Hidden" Click="btnAnswerD_Click"/>
+            <TextBlock x:Name="tbQuestion" HorizontalAlignment="Left" Margin="63,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="113" Width="525" FontSize="18" TextAlignment="Center" Visibility="Hidden"/>
+            <TextBlock x:Name="tbAnswerA" HorizontalAlignment="Left" Height="45" Margin="151,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="437" FontSize="18" Background="White" Visibility="Hidden"/>
+            <TextBlock x:Name="tbAnswerB" HorizontalAlignment="Left" Height="45" Margin="151,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="437" FontSize="18" Visibility="Hidden"/>
+            <TextBlock x:Name="tbAnswerC" HorizontalAlignment="Left" Height="45" Margin="151,375,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="437" FontSize="18" Visibility="Hidden"/>
+            <TextBlock x:Name="tbAnswerD" HorizontalAlignment="Left" Height="45" Margin="151,449,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="437" FontSize="18" Visibility="Hidden"/>
+            <Button x:Name="btnConfirm" Content="Confirm" HorizontalAlignment="Left" Height="47" Margin="498,502,0,0" VerticalAlignment="Top" Width="145" FontSize="18" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Visibility="Hidden" Click="btnConfirm_Click"/>
+        </Grid>
+
+    </Grid>
+</Window>
