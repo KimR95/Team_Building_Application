@@ -52,11 +52,10 @@ namespace TeamBuildingApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            double defaultA = (3 * (25/100));
-            decimal defaultB = (3 * (25 / 100));
+            
 
             lib.setAllowance(25, 25, 25, 25);
-            lib.generateGroups("k52zoxolck", 3);
+            lib.generateGroups("k52zoxolck", 5);
 
         }
     }

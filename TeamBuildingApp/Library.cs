@@ -353,21 +353,19 @@ namespace TeamBuildingApp
             //Count the instances of colours
             foreach (Gene g in chromo)
             {
-                foreach (Student stud in students)
-                {
-                    if (stud.getStudentNum() == g.ObjectValue.ToString())
-                    {
-                        switch (stud.getPrimary())
-                        {
-                            case "Red": red += 1; break;
-                            case "Blue": blue += 1; break;
-                            case "Green": green += 1; break;
-                            case "Yellow": yellow += 1; break;
-                        }
+                Student stud = getStudentByNum(g.ObjectValue.ToString());
 
-                        break;
-                    }
+                switch (stud.getPrimary())
+                {
+                    case "Red": red += 1; break;
+                    case "Blue": blue += 1; break;
+                    case "Green": green += 1; break;
+                    case "Yellow": yellow += 1; break;
                 }
+
+
+
+
             }
 
             //balancing formula -- based on idea that one of each is perfect. 
@@ -378,6 +376,8 @@ namespace TeamBuildingApp
                 //for every extra red a penalty of 4 - 4 being the worst penalty
                 int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (red_allowance / 100)));
                 score = score - (allowance * 4);
+
+
             }
 
             if (yellow > System.Math.Round(chromo.Count * (yellow_allowance / 100)))
@@ -403,7 +403,10 @@ namespace TeamBuildingApp
                
             }
 
-
+            int penalties = ((red + blue) / 2 * 3) + ((red + green) / 2 * 8) + ((red + yellow) / 2 * 3);
+            int penaltiesBlue = ((blue + green) / 2 * 5) + ((blue + yellow) / 2 * 6);
+            int penaltiesGreen  = ((green + yellow) / 2 * 3);
+            score = score - (penalties + penaltiesBlue+penaltiesGreen);
             Console.WriteLine(chromo.Id + "Fitness: " + score);
             return score;
         }
@@ -442,9 +445,9 @@ namespace TeamBuildingApp
 
                     foreach (Chromosome c in e.Population.Solutions)
                     {
-                        foreach (Student g in c)
+                        foreach (Gene g in c)
                         {
-                            if (g == students[i])
+                            if (g.ObjectValue.ToString() == students[i].getStudentNum())
                             {
                                 if (highFitness == null || c.Fitness > highFitness.Fitness)
                                 {
@@ -456,28 +459,26 @@ namespace TeamBuildingApp
                         }
                     }
 
-                    foreach (Student s in highFitness)
+                    foreach (Gene s in highFitness)
                     {
-                        existingStudents.Add(s);
+                        Student st = getStudentByNum(s.ObjectValue.ToString());
+                        existingStudents.Add(st);
+
                     }
 
                     group.Add(highFitness);
-
+                    highFitness = null;
                 }
-
-
-                foreach (Chromosome c in group)
-                {
-                    average += c.Fitness;
-                }
-
-                average = average / group.Count;
-
-                groupStructures.Add(group, average);
-
-
             }
 
+            foreach (Chromosome c in group)
+            {
+                average += c.Fitness;
+            }
+
+            average = average / group.Count;
+
+            groupStructures.Add(group, average);
 
             var gS = groupStructures.OrderBy(v => v.Value);
 
@@ -487,6 +488,24 @@ namespace TeamBuildingApp
                 elite.Add(pair.Key, pair.Value);
             }
         }
+       
+        
+        private static Student getStudentByNum(string sNum)
+        {
+            Student stud = null;
+            foreach(Student s in students)
+            {
+                if(s.getStudentNum() == sNum)
+                {
+                    stud = s;
+                    break;
+                }
+                 
+            }
+            return stud;
+        }
     }
+
+   
 }
 
