@@ -55,7 +55,8 @@ namespace TeamBuildingApp
             
 
             lib.setAllowance(25, 25, 25, 25);
-            lib.generateGroups("k52zoxolck", 5);
+            MessageBox.Show(lib.generateGroups("k52zoxolck", 5));
+
 
         }
     }

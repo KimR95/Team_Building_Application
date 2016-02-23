@@ -41,6 +41,9 @@
     <Reference Include="GAF">
       <HintPath>..\packages\GAF.2.1.1\lib\net40\GAF.dll</HintPath>
     </Reference>
+    <Reference Include="MoreLinq">
+      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\..\..\Downloads\MySql.Data.dll</HintPath>
     </Reference>

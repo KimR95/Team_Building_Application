@@ -9,6 +9,8 @@ using System.Collections;
 using GAF;
 using GAF.Extensions;
 using GAF.Operators;
+using MoreLinq;
+
 
 namespace TeamBuildingApp
 {
@@ -18,14 +20,17 @@ namespace TeamBuildingApp
         private static Library instance;
         private static DBConnection dbC;
         private static List<Question> questions;
-        
+
         private static List<Student> students;
-        private static SortedList<List<Chromosome>, double> elite;
+        private static List<KeyValuePair<List<Chromosome>, double>> elite;
 
         private static double red_allowance;
         private static double blue_allowance;
         private static double green_allowance;
         private static double yellow_allowance;
+
+        private static string something = "";
+        private static int groupsize = 0;
 
         private static Student stud;
 
@@ -48,9 +53,9 @@ namespace TeamBuildingApp
         public Library()
         {
             questions = new List<Question>();
-            
+
             students = new List<Student>();
-            elite = new SortedList<List<Chromosome>, double>();
+            elite = new List<KeyValuePair<List<Chromosome>, double>>();
         }
         public String connectToDb()
         {
@@ -239,7 +244,7 @@ namespace TeamBuildingApp
         {
             instance = null;
         }
-        
+
         public void setAllowance(double red, double blue, double green, double yellow)
         {
             red_allowance = red;
@@ -248,8 +253,10 @@ namespace TeamBuildingApp
             yellow_allowance = yellow;
         }
 
-        public void generateGroups(string classCode, int groupSize)
+        public String generateGroups(string classCode, int groupSize)
         {
+            groupsize = groupSize;
+
             //get students from the db
             List<Student> students = createStudents(classCode);
 
@@ -259,7 +266,9 @@ namespace TeamBuildingApp
             //create operators & algorithm
             createOperatorsAndAlgorithm(pop);
 
+            //format groupstructure
 
+            return something;
 
         }
 
@@ -278,6 +287,8 @@ namespace TeamBuildingApp
 
             }
 
+            read.Close();
+
             return students;
         }
 
@@ -295,18 +306,24 @@ namespace TeamBuildingApp
 
                 for (int k = 0; k <= students.Count; k++)
                 {
-                    if (j <= groupSize - 1)
+                    Console.WriteLine(k);
+
+                    if (j < groupSize)
                     {
                         chromo.Genes.Add(new Gene(students[k].getStudentNum()));
                         j = chromo.Count;
                     }
                     else
                     {
-                        break;
+                        pop.Solutions.Add(chromo);
+                        chromo = new Chromosome();
+                        j = 0;
+                        k = (k == 15) ? k : k - 1;
+
                     }
                 }
 
-                pop.Solutions.Add(chromo);
+
             }
 
             return pop;
@@ -329,9 +346,9 @@ namespace TeamBuildingApp
             genA.OnRunComplete += genA_OnRunComplete;
 
             //add the operators
-            genA.Operators.Add(el);
-            genA.Operators.Add(cr);
-            genA.Operators.Add(mutate);
+            //genA.Operators.Add(el);
+            //genA.Operators.Add(cr);
+            //genA.Operators.Add(mutate);
 
             //run the GA
             genA.Run(genTerminate);
@@ -348,7 +365,7 @@ namespace TeamBuildingApp
             int yellow = 0;
             int score = 100;
 
-            
+
 
             //Count the instances of colours
             foreach (Gene g in chromo)
@@ -369,7 +386,7 @@ namespace TeamBuildingApp
             }
 
             //balancing formula -- based on idea that one of each is perfect. 
-            
+
 
             if (red > System.Math.Round(chromo.Count * (red_allowance / 100)))
             {
@@ -392,7 +409,7 @@ namespace TeamBuildingApp
                 //for every extra blue a penalty of 2
                 int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (blue_allowance / 100)));
                 score = score - (allowance * 2);
-                
+
             }
 
             if (green > System.Math.Round(chromo.Count * (green_allowance / 100)))
@@ -400,21 +417,22 @@ namespace TeamBuildingApp
                 //for every extra blue a penalty of 2
                 int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (green_allowance / 100)));
                 score = score - (allowance * 2);
-               
+
             }
 
             int penalties = ((red + blue) / 2 * 3) + ((red + green) / 2 * 8) + ((red + yellow) / 2 * 3);
             int penaltiesBlue = ((blue + green) / 2 * 5) + ((blue + yellow) / 2 * 6);
-            int penaltiesGreen  = ((green + yellow) / 2 * 3);
-            score = score - (penalties + penaltiesBlue+penaltiesGreen);
+            int penaltiesGreen = ((green + yellow) / 2 * 3);
+            score = score - (penalties + penaltiesBlue + penaltiesGreen);
             Console.WriteLine(chromo.Id + "Fitness: " + score);
             return score;
         }
 
         public static bool genTerminate(Population population, int currentGeneration, long currentEvaluation)
         {
-            if (currentGeneration > 400)
+            if (currentGeneration > 40)
             {
+                something = elite.Count != 0 ? something : "No Structure Found";
                 return true;
             }
             return false;
@@ -423,89 +441,184 @@ namespace TeamBuildingApp
 
         private static void genA_OnRunComplete(object sender, GaEventArgs e)
         {
+            KeyValuePair<List<Chromosome>, double> highest = elite.MaxBy(t => t.Value);
+
+
+            foreach (Chromosome chr in highest.Key)
+            {
+                something += chr.ToString() + ' ' + '\n';
+            }
+            something += "Average: " + highest.Value;
 
         }
 
         private static void genA_OnGenerationComplete(object sender, GaEventArgs e)
         {
-            List<Student> existingStudents = new List<Student>();
-            SortedList<List<Chromosome>, double> groupStructures = new SortedList<List<Chromosome>, double>();
+            var studentsQueue = new Queue<Student>(students);
+            List<String> existingStudents = new List<String>();
+            List<KeyValuePair<List<Chromosome>, double>> groupStructures = new List<KeyValuePair<List<Chromosome>, double>>();
             List<Chromosome> group = new List<Chromosome>();
 
             Chromosome highFitness = null;
-
-
             double average = 0;
+            List<string> strings = students.Select(s => (string)s.getStudentNum()).ToList();
 
-            for (int j = 0; j < students.Count - 1; j++)
+
+            for (int j = 0; j < students.Count; j++)
             {
-                for (int i = j; i < students.Count - 1; i++)
-                {
-                    if (existingStudents.Contains(students[i])) { break; }
 
-                    foreach (Chromosome c in e.Population.Solutions)
+                foreach (Student stud in studentsQueue)
+                {
+                    if ((students.Count - existingStudents.Count) == groupsize)
                     {
-                        foreach (Gene g in c)
+
+                        List<string> trial = strings.Except(existingStudents).ToList();
+                        Chromosome chromo = new Chromosome();
+                        foreach (string st in trial)
                         {
-                            if (g.ObjectValue.ToString() == students[i].getStudentNum())
+                            chromo.Genes.Add(new Gene(st));
+                        }
+                        chromo.Evaluate(calculateFitness);
+                        group.Add(chromo);
+                        break;
+                    }
+
+                    // if (existingStudents.Count == students.Count) { break; }
+
+                    if (existingStudents.Contains(stud.getStudentNum()) == false)
+                    {
+                        foreach (Chromosome c in e.Population.Solutions)
+                        {
+                            List<String> words = c.ToString().Split(' ').ToList();
+                            if (existingStudents.Any(item => words.Contains(item)) == false & words.Contains(stud.getStudentNum()) == true)
                             {
+
                                 if (highFitness == null || c.Fitness > highFitness.Fitness)
                                 {
+
                                     highFitness = c;
 
                                 }
+
+                            }
+                        }
+
+                        if (highFitness != null)
+                        {
+
+                            foreach (Gene s in highFitness)
+                            {
+                                Student st = getStudentByNum(s.ObjectValue.ToString());
+                                existingStudents.Add(st.getStudentNum());
+
                             }
 
+                            group.Add(highFitness);
+                            highFitness = null;
                         }
-                    }
-
-                    foreach (Gene s in highFitness)
-                    {
-                        Student st = getStudentByNum(s.ObjectValue.ToString());
-                        existingStudents.Add(st);
 
                     }
 
-                    group.Add(highFitness);
-                    highFitness = null;
                 }
+
+                foreach (Chromosome c in group)
+                {
+                    average += c.Fitness;
+                }
+
+                
+                average = average / group.Count;
+                
+
+
+                if (groupStructures.Any(x => x.Key.ToString() == group.Any().ToString()) == false)
+                {
+
+
+                    groupStructures.Add(new KeyValuePair<List<Chromosome>, double>(group, average));
+
+                }
+
+                average = 0;
+                group = new List<Chromosome>();
+                existingStudents.Clear();
+
+
+
+                studentsQueue.Enqueue(studentsQueue.Dequeue());
             }
 
-            foreach (Chromosome c in group)
-            {
-                average += c.Fitness;
-            }
+            writeToFile(groupStructures);
 
-            average = average / group.Count;
+            KeyValuePair<List<Chromosome>, double> highest = groupStructures.MaxBy(t => t.Value);
 
-            groupStructures.Add(group, average);
+            elite.Add(new KeyValuePair<List<Chromosome>, double>(highest.Key, highest.Value));
 
-            var gS = groupStructures.OrderBy(v => v.Value);
 
-            foreach (KeyValuePair<List<Chromosome>, double> pair in gS)
-            {
-                Console.WriteLine("Structure" + pair.Key.ToString() + "average " + pair.Value);
-                elite.Add(pair.Key, pair.Value);
-            }
         }
-       
-        
+
+
+
         private static Student getStudentByNum(string sNum)
         {
             Student stud = null;
-            foreach(Student s in students)
+            foreach (Student s in students)
             {
-                if(s.getStudentNum() == sNum)
+                if (s.getStudentNum() == sNum)
                 {
                     stud = s;
                     break;
                 }
-                 
+
             }
             return stud;
         }
-    }
 
-   
+
+        private static void writeToFile(List<KeyValuePair<List<Chromosome>,double>> groups)
+        {
+            string path = @"MyTest.txt";
+            string lines = "\n Group Structure: ";
+
+           
+            foreach (KeyValuePair<List<Chromosome>, double> kvp in groups)
+            {
+                foreach (Chromosome chr in kvp.Key)
+                {
+                    lines += chr.ToString();
+                }
+
+                lines += " Average: " + kvp.Value + '\n'; 
+            }
+
+            if (!File.Exists(path))
+            {
+                
+                using (StreamWriter sw = File.CreateText(path))
+                {
+                    sw.WriteLine(lines);
+                    sw.Close();
+                   
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(path))
+                {
+                    sw.WriteLine(lines);
+                    sw.Close();
+                   
+                }	
+            }
+         
+
+            
+            
+
+            
+        }
+
+
+    }
 }
 
