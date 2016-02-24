@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace TeamBuildingApp
 {
-    class SolutionItem
+    public class SolutionItem : INotifyPropertyChanged
     {
         public string StudentID { get; set; }
 
@@ -17,7 +19,30 @@ namespace TeamBuildingApp
         public string SColour { get; set; }
 
         public string GroupTitle { get; set; }
+      
 
-        
+        public void changeGroupTitle(string cGT)
+        {
+            this.GroupTitle = cGT;
+            NotifyPropertyChanged("GroupTitle");
+
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            System.Diagnostics.Debug.WriteLine("Update!"); //ok
+            if (PropertyChanged != null)
+            {
+                //PropertyChanged is always null and shouldn't.
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }
+     
+
+

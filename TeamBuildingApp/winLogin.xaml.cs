@@ -21,7 +21,7 @@ namespace TeamBuildingApp
     {
         Library lib;
         Administrator admin;
-        Student stud;
+        
         string checkNo;
         string checkfn;
         string checksn;

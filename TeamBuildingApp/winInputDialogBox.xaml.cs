@@ -81,18 +81,12 @@ namespace TeamBuildingApp
 
                }
 
+               winGroup.displayList(sitems);
+               
+
          
                
-               CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(sitems);
-                         
-               view.GroupDescriptions.Add(new PropertyGroupDescription("GroupTitle"));
-
-               winGroup.lstViewTry.Items.Clear();
-               winGroup.lstViewTry.ItemsSource = sitems;
-
-               
-
-               winGroup.Topmost = true;
+         
                this.Close();
 
            }
