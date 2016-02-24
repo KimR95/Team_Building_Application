@@ -17,5 +17,7 @@ namespace TeamBuildingApp
         public string SColour { get; set; }
 
         public string GroupTitle { get; set; }
+
+        
     }
 }

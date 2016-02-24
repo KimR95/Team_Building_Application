@@ -61,22 +61,24 @@ namespace TeamBuildingApp
            else
            {
 
-               List<List<Student>> solved = lib.getSolutionsList();
+               List<KeyValuePair<List<Student>,double>> solved = lib.getSolutionsList();
                List<SolutionItem> sitems = new List<SolutionItem>();              
 
 
                int i =0;
 
-               foreach(List<Student> st in solved)
+               foreach (KeyValuePair<List<Student>, double> kvp in solved)
                {
-                   i += 1;                   
-                  
 
-                   foreach(Student stud in st)
+                   i += 1;
+
+
+                   foreach (Student stud in kvp.Key)
                    {
-                       
-                     sitems.Add(new SolutionItem { StudentID = stud.getStudentNum(), StudentName = stud.getName(), PColour = stud.getPrimary(), SColour = stud.getSecondary(), GroupTitle = "Group " + i});
+
+                       sitems.Add(new SolutionItem { StudentID = stud.getStudentNum(), StudentName = stud.getName(), PColour = stud.getPrimary(), SColour = stud.getSecondary(), GroupTitle = "Group " + i + "\t  Fitness Average: " + kvp.Value });
                    }
+
                }
 
          

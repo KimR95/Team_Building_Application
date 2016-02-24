@@ -22,8 +22,8 @@ namespace TeamBuildingApp
         private static List<Question> questions;
 
         private static List<Student> students;
-        private static List<KeyValuePair<List<Chromosome>, double>> elite;
-        private static List<List<Student>> solutions; 
+        private static List<KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>> elite;
+        private static List<KeyValuePair<List<Student>, double>> solutions; 
 
         private static double red_allowance;
         private static double blue_allowance;
@@ -57,8 +57,8 @@ namespace TeamBuildingApp
             questions = new List<Question>();
 
             students = new List<Student>();
-            elite = new List<KeyValuePair<List<Chromosome>, double>>();
-            solutions = new List<List<Student>>();
+            elite = new List<KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>>();
+            solutions = new List<KeyValuePair<List<Student>, double>>();
         }
         public String connectToDb()
         {
@@ -283,7 +283,7 @@ namespace TeamBuildingApp
 
         }
 
-        public List<List<Student>> getSolutionsList()
+        public List<KeyValuePair<List<Student>,double>> getSolutionsList()
         {
             return solutions;
         }
@@ -459,22 +459,24 @@ namespace TeamBuildingApp
 
         private static void genA_OnRunComplete(object sender, GaEventArgs e)
         {
-            KeyValuePair<List<Chromosome>, double> highest = elite.MaxBy(t => t.Value);
+            KeyValuePair<List<KeyValuePair<Chromosome, double>>, double> highest = elite.MaxBy(t => t.Value);
 
             List<Student> groupList = new List<Student>();
-            foreach (Chromosome chr in highest.Key)
+            foreach (KeyValuePair<Chromosome, double> kvp in highest.Key)
             {
-                foreach(Gene g in chr)
+
+                foreach (Gene g in kvp.Key)
                 {
-                   groupList.Add(getStudentByNum(g.ObjectValue.ToString()));
-                   
+                    groupList.Add(getStudentByNum(g.ObjectValue.ToString()));
+
                 }
 
-                solutions.Add(groupList);
+                solutions.Add(new KeyValuePair<List<Student>, double>(groupList, kvp.Key.Fitness));
                 groupList = new List<Student>();
-                
+
             }
             solutionAverage = highest.Value;
+
 
 
         }
@@ -483,8 +485,8 @@ namespace TeamBuildingApp
         {
             var studentsQueue = new Queue<Student>(students);
             List<String> existingStudents = new List<String>();
-            List<KeyValuePair<List<Chromosome>, double>> groupStructures = new List<KeyValuePair<List<Chromosome>, double>>();
-            List<Chromosome> group = new List<Chromosome>();
+            List<KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>> groupStructures = new List<KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>>();
+            List<KeyValuePair<Chromosome, double>> group = new List<KeyValuePair<Chromosome, double>>();
 
             Chromosome highFitness = null;
             double average = 0;
@@ -506,7 +508,7 @@ namespace TeamBuildingApp
                             chromo.Genes.Add(new Gene(st));
                         }
                         chromo.Evaluate(calculateFitness);
-                        group.Add(chromo);
+                        group.Add(new KeyValuePair<Chromosome,double>(chromo, chromo.Fitness));
                         break;
                     }
 
@@ -540,7 +542,7 @@ namespace TeamBuildingApp
 
                             }
 
-                            group.Add(highFitness);
+                            group.Add(new KeyValuePair<Chromosome, double>(highFitness, highFitness.Fitness));
                             highFitness = null;
                         }
 
@@ -548,9 +550,9 @@ namespace TeamBuildingApp
 
                 }
 
-                foreach (Chromosome c in group)
+                foreach (KeyValuePair<Chromosome,double> c in group)
                 {
-                    average += c.Fitness;
+                    average += c.Value;
                 }
 
                 
@@ -562,12 +564,12 @@ namespace TeamBuildingApp
                 {
 
 
-                    groupStructures.Add(new KeyValuePair<List<Chromosome>, double>(group, average));
+                    groupStructures.Add(new KeyValuePair<List<KeyValuePair<Chromosome,double>>,double>(group,average));
 
                 }
 
                 average = 0;
-                group = new List<Chromosome>();
+                group = new List<KeyValuePair<Chromosome, double>>();
                 existingStudents.Clear();
 
 
@@ -575,11 +577,11 @@ namespace TeamBuildingApp
                 studentsQueue.Enqueue(studentsQueue.Dequeue());
             }
 
-            writeToFile(groupStructures);
+            //writeToFile(groupStructures);
 
-            KeyValuePair<List<Chromosome>, double> highest = groupStructures.MaxBy(t => t.Value);
+            KeyValuePair<List<KeyValuePair<Chromosome,double>>, double> highest = groupStructures.MaxBy(t => t.Value);
 
-            elite.Add(new KeyValuePair<List<Chromosome>, double>(highest.Key, highest.Value));
+            elite.Add(new KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>(highest.Key, highest.Value));
 
 
         }
