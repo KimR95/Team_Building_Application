@@ -111,11 +111,13 @@ namespace TeamBuildingApp
                 && checkfn == "check" && txtStudentName.Text != "" 
                     && checksn == "check" && txtStudentSecondName.Text != "" && txtClassCode.Text != "")
             {
-                //check if the code is present in the database
-                this.stud = lib.checkCode(txtStudentNo.Text, txtStudentName.Text, txtStudentSecondName.Text, txtClassCode.Text);
+                //check if the code is present in the database           
                
-                if(stud != null) 
+                
+                if( lib.checkCode(txtClassCode.Text) == true) 
                 {
+                    lib.addStudent(txtStudentNo.Text, txtStudentName.Text, txtStudentSecondName.Text, txtClassCode.Text);
+
                     winQuestionaire wq = new winQuestionaire();
                     this.Close();
                     wq.Show();

@@ -23,14 +23,16 @@ namespace TeamBuildingApp
 
         private static List<Student> students;
         private static List<KeyValuePair<List<Chromosome>, double>> elite;
+        private static List<List<Student>> solutions; 
 
         private static double red_allowance;
         private static double blue_allowance;
         private static double green_allowance;
         private static double yellow_allowance;
 
-        private static string something = "";
+        private static string message = "";
         private static int groupsize = 0;
+        private static double solutionAverage = 0;
 
         private static Student stud;
 
@@ -56,6 +58,7 @@ namespace TeamBuildingApp
 
             students = new List<Student>();
             elite = new List<KeyValuePair<List<Chromosome>, double>>();
+            solutions = new List<List<Student>>();
         }
         public String connectToDb()
         {
@@ -213,7 +216,7 @@ namespace TeamBuildingApp
 
         }
 
-        public Student checkCode(string no, string fname, string sname, string classcode)
+        public bool checkCode(string classcode)
         {
             MySqlCommand cmd = new MySqlCommand("SELECT * FROM CLASSCODES WHERE CLASS_CODE = '" + classcode + "'", dbC.getConnection());
             MySqlDataReader read = cmd.ExecuteReader();
@@ -222,17 +225,20 @@ namespace TeamBuildingApp
             {
                 //format new student into type and store on db
                 read.Close();
-                stud = new Student(no, fname, sname, classcode, dbC.getConnection());
-
-                return stud;
+                return true;
             }
             else
             {
                 read.Close();
-                return null;
+                return false;
             }
 
 
+        }
+
+        public Student addStudent(string no, string fname, string sname, string classcode)
+        {
+           return new Student(no, fname, sname, classcode, dbC.getConnection());
         }
 
         public void completedResults(int red, int blue, int green, int yellow)
@@ -257,8 +263,13 @@ namespace TeamBuildingApp
         {
             groupsize = groupSize;
 
+            if (checkCode(classCode) == false) { return "Class Code Error"; }
+
             //get students from the db
-            List<Student> students = createStudents(classCode);
+            if (students.Count == 0) { students = createStudents(classCode);  }
+
+            if (students.Count % groupsize != 0) { return ("Group Size Error"); }
+            
 
             //create population from the available students
             Population pop = createPopulation(students, groupSize);
@@ -268,11 +279,18 @@ namespace TeamBuildingApp
 
             //format groupstructure
 
-            return something;
+            return message;
 
         }
 
-
+        public List<List<Student>> getSolutionsList()
+        {
+            return solutions;
+        }
+        public double getSolutionAverage()
+        {
+            return solutionAverage;
+        }
 
         private List<Student> createStudents(string classCode)
         {
@@ -432,7 +450,7 @@ namespace TeamBuildingApp
         {
             if (currentGeneration > 40)
             {
-                something = elite.Count != 0 ? something : "No Structure Found";
+                message = elite.Count != 0 ? message : "No Structure Found";
                 return true;
             }
             return false;
@@ -443,12 +461,21 @@ namespace TeamBuildingApp
         {
             KeyValuePair<List<Chromosome>, double> highest = elite.MaxBy(t => t.Value);
 
-
+            List<Student> groupList = new List<Student>();
             foreach (Chromosome chr in highest.Key)
             {
-                something += chr.ToString() + ' ' + '\n';
+                foreach(Gene g in chr)
+                {
+                   groupList.Add(getStudentByNum(g.ObjectValue.ToString()));
+                   
+                }
+
+                solutions.Add(groupList);
+                groupList = new List<Student>();
+                
             }
-            something += "Average: " + highest.Value;
+            solutionAverage = highest.Value;
+
 
         }
 
@@ -618,7 +645,9 @@ namespace TeamBuildingApp
             
         }
 
-
+        public int getStudentSize()
+        {
+            return students.Count;
+        }
     }
 }
-

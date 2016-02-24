@@ -104,6 +104,13 @@ namespace TeamBuildingApp
         {
             return this.studentNo;
         }
+
+        public String getName()
+        {
+            return this.firstName + " " + this.secondName; 
+        }
+
+      
     
     }
 }

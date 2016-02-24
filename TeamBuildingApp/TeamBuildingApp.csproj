@@ -70,12 +70,19 @@
     <Compile Include="DBConnection.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Question.cs" />
+    <Compile Include="SolutionItem.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="winAdministrator.xaml.cs">
       <DependentUpon>winAdministrator.xaml</DependentUpon>
     </Compile>
     <Compile Include="winGenerateCode.xaml.cs">
       <DependentUpon>winGenerateCode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="winGroupManagement.xaml.cs">
+      <DependentUpon>winGroupManagement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="winInputDialogBox.xaml.cs">
+      <DependentUpon>winInputDialogBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="winLogin.xaml.cs">
       <DependentUpon>winLogin.xaml</DependentUpon>
@@ -103,6 +110,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="winGenerateCode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winGroupManagement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winInputDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

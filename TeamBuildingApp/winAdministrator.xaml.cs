@@ -50,13 +50,14 @@ namespace TeamBuildingApp
             wGA.Show();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+     
+
+        private void btnViewGroupSolutions_Click(object sender, RoutedEventArgs e)
         {
-            
 
-            lib.setAllowance(25, 25, 25, 25);
-            MessageBox.Show(lib.generateGroups("k52zoxolck", 5));
-
+            winGroupManagement wGM = new winGroupManagement();
+            wGM.Show();
+            this.Close();
 
         }
     }
