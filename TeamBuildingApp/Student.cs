@@ -35,7 +35,7 @@ namespace TeamBuildingApp
             storeToDb();
         }
 
-        public Student(string no, string fn, string sn, string classC, int red, int blue, int green, int yellow)
+        public Student(string no, string fn, string sn, string classC, int red, int blue, int green, int yellow, string pc, string sc)
         {
             this.studentNo = no;
             this.firstName = fn;
@@ -43,7 +43,17 @@ namespace TeamBuildingApp
             this.classCode = classC;
           
             this.assessmentResults = new SortedList<string, int>();
-            this.setResults(red, blue, green, yellow);
+
+            if (pc == "NULL" || sc == "NULL")
+            {
+                this.setResults(red, blue, green, yellow);
+            }
+
+            else
+            {
+                this.primary = pc;
+                this.secondary = sc;
+            }
 
 
           

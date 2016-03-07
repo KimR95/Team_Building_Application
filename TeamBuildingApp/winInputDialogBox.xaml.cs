@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace TeamBuildingApp
 {
@@ -21,30 +22,43 @@ namespace TeamBuildingApp
     {
         Library lib;
         winGroupManagement winGroup;
+        Loading load;
+        BackgroundWorker bw;
+
         public winInputDialogBox(winGroupManagement wGM)
         {
             
             InitializeComponent();
             lib = Library.Instance;
             winGroup = wGM;
+          
+            
+           
+
+           
         }
+
+
 
         public string getClassCode()
         {
             return txtClassCode.Text;
         }
+
         public int getGroupSize()
         {
             return int.Parse(txtGroupSize.Text);
         }
 
+
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             
+           load = new Loading();    
 
-           string result = lib.generateGroups(this.getClassCode(), this.getGroupSize());
-           lib.setAllowance(25, 25, 25, 25);
-           //winGroup.Topmost = true;
+           string result = lib.generateGroups(this.getClassCode(), this.getGroupSize(), load);
+
+           winGroup.Topmost = true;
 
            if (result == "Group Size Error")
            {
@@ -60,7 +74,7 @@ namespace TeamBuildingApp
            }
            else
            {
-
+               
                List<KeyValuePair<List<Student>,double>> solved = lib.getSolutionsList();
                List<SolutionItem> sitems = new List<SolutionItem>();              
 
@@ -80,16 +94,17 @@ namespace TeamBuildingApp
                    }
 
                }
-
-               winGroup.displayList(sitems);
-               
-
-         
-               
-         
+               load.progTick();
+               winGroup.displayList(sitems);  
+  
+     
                this.Close();
-
+                 
+          
            }
         }
+    
+
+       
     }
 }

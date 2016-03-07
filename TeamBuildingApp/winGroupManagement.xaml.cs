@@ -113,6 +113,24 @@ namespace TeamBuildingApp
             }
         }
 
+        private void btnSetColourBalance_Click(object sender, RoutedEventArgs e)
+        {
+            winBalanceColour wBC = new winBalanceColour();
+            wBC.Show();
+            btnSetColourBalance.BorderBrush = Brushes.Crimson;
+        }
+
+        private void btnConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            if(MessageBox.Show("Would you like to save this group solution?", "Saving", MessageBoxButton.YesNo)== MessageBoxResult.Yes)
+            {
+                //Write to file - possible excel file.
+                //Conditional Formatted template.
+            }
+
+            this.Close();
+        }
+
      
 
 

@@ -20,6 +20,7 @@ namespace TeamBuildingApp
         private static Library instance;
         private static DBConnection dbC;
         private static List<Question> questions;
+        private static Loading load;
 
         private static List<Student> students;
         private static List<KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>> elite;
@@ -55,10 +56,11 @@ namespace TeamBuildingApp
         public Library()
         {
             questions = new List<Question>();
-
             students = new List<Student>();
             elite = new List<KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>>();
             solutions = new List<KeyValuePair<List<Student>, double>>();
+
+            red_allowance = 25; blue_allowance = 25; green_allowance = 25; yellow_allowance = 25; 
         }
         public String connectToDb()
         {
@@ -238,7 +240,8 @@ namespace TeamBuildingApp
 
         public Student addStudent(string no, string fname, string sname, string classcode)
         {
-           return new Student(no, fname, sname, classcode, dbC.getConnection());
+            stud = new Student(no, fname, sname, classcode, dbC.getConnection());
+            return stud; 
         }
 
         public void completedResults(int red, int blue, int green, int yellow)
@@ -259,8 +262,10 @@ namespace TeamBuildingApp
             yellow_allowance = yellow;
         }
 
-        public String generateGroups(string classCode, int groupSize)
+        public String generateGroups(string classCode, int groupSize, Loading l)
         {
+            load = l;
+            load.progTick();
             groupsize = groupSize;
 
             if (checkCode(classCode) == false) { return "Class Code Error"; }
@@ -301,7 +306,8 @@ namespace TeamBuildingApp
             while (read.Read())
             {
                 students.Add(new Student(read.GetString("Student_no"), read.GetString("First_Name"), read.GetString("Second_Name"), classCode,
-                    read.GetInt32("Red_Results"), read.GetInt32("Blue_Results"), read.GetInt32("Green_Results"), read.GetInt32("Yellow_Results")));
+                    read.GetInt32("Red_Results"), read.GetInt32("Blue_Results"), read.GetInt32("Green_Results"), read.GetInt32("Yellow_Results"),
+                    read.GetString("Primary_Colour"), read.GetString("Secondary_Colour")));
 
             }
 
@@ -322,7 +328,7 @@ namespace TeamBuildingApp
                 var rnd = new Random();
                 students = students.OrderBy(x => rnd.Next()).ToList();
 
-                for (int k = 0; k <= students.Count; k++)
+                for (int k = 0; k <= students.Count - 1; k++)
                 {
                     Console.WriteLine(k);
 
@@ -359,6 +365,7 @@ namespace TeamBuildingApp
             BinaryMutate mutate = new BinaryMutate(0.3, true);
 
             GeneticAlgorithm genA = new GeneticAlgorithm(pop, calculateFitness);
+
 
             genA.OnGenerationComplete += genA_OnGenerationComplete;
             genA.OnRunComplete += genA_OnRunComplete;
@@ -459,6 +466,7 @@ namespace TeamBuildingApp
 
         private static void genA_OnRunComplete(object sender, GaEventArgs e)
         {
+            load.progTick();
             KeyValuePair<List<KeyValuePair<Chromosome, double>>, double> highest = elite.MaxBy(t => t.Value);
 
             List<Student> groupList = new List<Student>();

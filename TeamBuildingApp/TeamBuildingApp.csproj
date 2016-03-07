@@ -69,11 +69,17 @@
     <Compile Include="Administrator.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="Library.cs" />
+    <Compile Include="Loading.xaml.cs">
+      <DependentUpon>Loading.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Question.cs" />
     <Compile Include="SolutionItem.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="winAdministrator.xaml.cs">
       <DependentUpon>winAdministrator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="winBalanceColour.xaml.cs">
+      <DependentUpon>winBalanceColour.xaml</DependentUpon>
     </Compile>
     <Compile Include="winGenerateCode.xaml.cs">
       <DependentUpon>winGenerateCode.xaml</DependentUpon>
@@ -93,6 +99,10 @@
     <Compile Include="winQuestionaire.xaml.cs">
       <DependentUpon>winQuestionaire.xaml</DependentUpon>
     </Compile>
+    <Page Include="Loading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +116,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="winAdministrator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winBalanceColour.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
