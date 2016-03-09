@@ -16,7 +16,7 @@ namespace TeamBuildingApp
 {
     class Library
     {
-
+        private static int tries;
         private static Library instance;
         private static DBConnection dbC;
         private static List<Question> questions;
@@ -60,7 +60,9 @@ namespace TeamBuildingApp
             elite = new List<KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>>();
             solutions = new List<KeyValuePair<List<Student>, double>>();
 
-            red_allowance = 25; blue_allowance = 25; green_allowance = 25; yellow_allowance = 25; 
+            red_allowance = 25; blue_allowance = 25; green_allowance = 25; yellow_allowance = 25;
+
+            tries = 0; 
         }
         public String connectToDb()
         {
@@ -357,7 +359,7 @@ namespace TeamBuildingApp
 
         private void createOperatorsAndAlgorithm(Population pop)
         {
-            Elite el = new Elite(5);
+            
 
             Crossover cr = new Crossover(0.7, false);
             cr.CrossoverType = CrossoverType.DoublePoint;
@@ -371,8 +373,8 @@ namespace TeamBuildingApp
             genA.OnRunComplete += genA_OnRunComplete;
 
             //add the operators
-            //genA.Operators.Add(el);
-            //genA.Operators.Add(cr);
+            
+            genA.Operators.Add(cr);
             //genA.Operators.Add(mutate);
 
             //run the GA
@@ -449,17 +451,19 @@ namespace TeamBuildingApp
             int penaltiesBlue = ((blue + green) / 2 * 5) + ((blue + yellow) / 2 * 6);
             int penaltiesGreen = ((green + yellow) / 2 * 3);
             score = score - (penalties + penaltiesBlue + penaltiesGreen);
+            tries += 1;
             Console.WriteLine(chromo.Id + "Fitness: " + score);
             return score;
         }
 
         public static bool genTerminate(Population population, int currentGeneration, long currentEvaluation)
         {
-            if (currentGeneration > 40)
+            if (currentGeneration > 25)
             {
                 message = elite.Count != 0 ? message : "No Structure Found";
                 return true;
             }
+            
             return false;
         }
 
@@ -484,7 +488,7 @@ namespace TeamBuildingApp
 
             }
             solutionAverage = highest.Value;
-
+            Console.WriteLine("Number of structures checked: " + tries);
 
 
         }
