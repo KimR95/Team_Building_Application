@@ -60,5 +60,21 @@ namespace TeamBuildingApp
             this.Close();
 
         }
+
+        private void btnViewClassCodes_Click(object sender, RoutedEventArgs e)
+        {
+            winViewCodes wVC = new winViewCodes(admin);
+            wVC.Show();
+
+        }
+
+        private void btnViewAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            winViewAdmin wVA = new winViewAdmin(admin);
+            wVA.Show();
+            wVA.Topmost = true; 
+        }
+
+        
     }
 }

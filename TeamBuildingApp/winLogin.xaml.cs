@@ -202,13 +202,24 @@ namespace TeamBuildingApp
         {
             //Login Validation 
             admin = lib.validateLogin(txtAdminUsername.Text, passPassword.Password);
+           
 
+          
             if (admin != null)
             {
-                //Navigation 
-                winAdministrator wa = new winAdministrator(admin);
-                this.Close();
-                wa.Show();
+                if (admin.checkPasswordChange() == true)
+                {
+                    winPasswordChange wPC = new winPasswordChange(admin);
+                    wPC.Show();
+                    wPC.Topmost = true;
+                }
+                else
+                {
+                    //Navigation 
+                    winAdministrator wa = new winAdministrator(admin);
+                    this.Close();
+                    wa.Show();
+                }
             }
             else
             {

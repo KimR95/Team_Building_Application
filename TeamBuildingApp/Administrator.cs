@@ -11,14 +11,20 @@ namespace TeamBuildingApp
 {
     public class Administrator
     {
+        public string fname { get; set; }
 
-        private string fname;
-        private string sname;
-        private string emailAddress;
+        public string sname { get; set; }
+
+        public string emailAddress { get; set; }
+
+        public string companyName { get; set; }
+
+      
         private string username;
         private string password;
-        private string companyName;
+      
         private string salt;
+        
         
         private MySqlConnection connect;
         
@@ -53,6 +59,13 @@ namespace TeamBuildingApp
             
         }
 
+        public Administrator(string fn, string sn, string ea, string compN)
+        {
+            this.fname = fn;
+            this.sname = sn;
+            this.emailAddress = ea;
+            this.companyName = compN;
+        }
         public String createPassword()
         {
             //create password for new admin - default & encrypted
@@ -61,12 +74,33 @@ namespace TeamBuildingApp
             return generateHash(pass,salt);
             
         }
+
+        public bool checkPasswordChange()
+        {
+            return checkPassword(fname + sname);
+        }
         
-        public void changePassword(string newpass)
+        public void changePassword(string newpass, MySqlConnection con)
         {
             //encryption of new password 
             this.salt = createSalt(30);
             this.password = generateHash(newpass, salt);
+            MySqlCommand cmd = new MySqlCommand("UPDATE ADMINISTRATORS SET ADMINPASSWORD = @val1, SALT = @val2 WHERE USERNAME = @val3", con);
+            cmd.Parameters.AddWithValue("@val1", this.password);
+            cmd.Parameters.AddWithValue("@val2", this.salt);
+            cmd.Parameters.AddWithValue("@val3", this.username);
+
+            try
+            {
+                MySqlDataReader read = cmd.ExecuteReader();
+                read.Close();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         public void storeToDb()
@@ -144,10 +178,7 @@ namespace TeamBuildingApp
             return this.username;
         }
 
-        public String getCompanyName()
-        {
-            return this.companyName;
-        }
+      
     }
 
 }

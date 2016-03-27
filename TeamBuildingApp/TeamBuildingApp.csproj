@@ -67,6 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Administrator.cs" />
+    <Compile Include="ClassCode.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Loading.xaml.cs">
@@ -96,8 +97,17 @@
     <Compile Include="winNewAdmin.xaml.cs">
       <DependentUpon>winNewAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="winPasswordChange.xaml.cs">
+      <DependentUpon>winPasswordChange.xaml</DependentUpon>
+    </Compile>
     <Compile Include="winQuestionaire.xaml.cs">
       <DependentUpon>winQuestionaire.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="winViewAdmin.xaml.cs">
+      <DependentUpon>winViewAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="winViewCodes.xaml.cs">
+      <DependentUpon>winViewCodes.xaml</DependentUpon>
     </Compile>
     <Page Include="Loading.xaml">
       <SubType>Designer</SubType>
@@ -143,7 +153,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="winPasswordChange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="winQuestionaire.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winViewAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winViewCodes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

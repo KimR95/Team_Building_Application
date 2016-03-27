@@ -35,6 +35,8 @@ namespace TeamBuildingApp
         private static int groupsize = 0;
         private static double solutionAverage = 0;
 
+        private static double crossoverRate = 0.2;
+
         private static Student stud;
 
         public static Library Instance
@@ -185,8 +187,8 @@ namespace TeamBuildingApp
 
             }
 
-            cmd = new MySqlCommand("INSERT INTO CLASSCODES(CLASS_CODE, CLASS_TITLE, COMPANY_NAME, ADMINISTRATOR_USERNAME)VALUES('" + code + "','" + classTitle + "','" + admin.getCompanyName() + "','" + admin.getUsername() + "')", dbC.getConnection());
-            Console.WriteLine(cmd.CommandText);
+            cmd = new MySqlCommand("INSERT INTO CLASSCODES(CLASS_CODE, CLASS_TITLE, COMPANY_NAME, ADMINISTRATOR_USERNAME)VALUES('" + code + "','" + classTitle + "','" + admin.companyName + "','" + admin.getUsername() + "')", dbC.getConnection());
+           
 
             try
             {
@@ -332,7 +334,7 @@ namespace TeamBuildingApp
 
                 for (int k = 0; k <= students.Count - 1; k++)
                 {
-                    Console.WriteLine(k);
+                   
 
                     if (j < groupSize)
                     {
@@ -364,7 +366,7 @@ namespace TeamBuildingApp
             Crossover cr = new Crossover(0.7, false);
             cr.CrossoverType = CrossoverType.DoublePoint;
 
-            BinaryMutate mutate = new BinaryMutate(0.3, true);
+            //BinaryMutate mutate = new BinaryMutate(0.3, true);
 
             GeneticAlgorithm genA = new GeneticAlgorithm(pop, calculateFitness);
 
@@ -452,13 +454,14 @@ namespace TeamBuildingApp
             int penaltiesGreen = ((green + yellow) / 2 * 3);
             score = score - (penalties + penaltiesBlue + penaltiesGreen);
             tries += 1;
-            Console.WriteLine(chromo.Id + "Fitness: " + score);
+            //Console.WriteLine(chromo.Id + "Fitness: " + score);
             return score;
         }
 
         public static bool genTerminate(Population population, int currentGeneration, long currentEvaluation)
         {
-            if (currentGeneration > 25)
+
+            if (currentGeneration > 10)
             {
                 message = elite.Count != 0 ? message : "No Structure Found";
                 return true;
@@ -488,8 +491,7 @@ namespace TeamBuildingApp
 
             }
             solutionAverage = highest.Value;
-            Console.WriteLine("Number of structures checked: " + tries);
-
+            
 
         }
 
@@ -524,7 +526,7 @@ namespace TeamBuildingApp
                         break;
                     }
 
-                    // if (existingStudents.Count == students.Count) { break; }
+                   
 
                     if (existingStudents.Contains(stud.getStudentNum()) == false)
                     {
@@ -569,13 +571,13 @@ namespace TeamBuildingApp
 
                 
                 average = average / group.Count;
-                
+                Console.WriteLine(average);
 
 
                 if (groupStructures.Any(x => x.Key.ToString() == group.Any().ToString()) == false)
                 {
 
-
+                   
                     groupStructures.Add(new KeyValuePair<List<KeyValuePair<Chromosome,double>>,double>(group,average));
 
                 }
@@ -592,13 +594,58 @@ namespace TeamBuildingApp
             //writeToFile(groupStructures);
 
             KeyValuePair<List<KeyValuePair<Chromosome,double>>, double> highest = groupStructures.MaxBy(t => t.Value);
-
             elite.Add(new KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>(highest.Key, highest.Value));
+            
+
+             
+            e.Population.Solutions.Sort();
+            Population pop = new Population();
+            pop = clonePop(e.Population);
+            e.Population.Solutions.Clear();
+
+            for (int i = 0; i < 0.5*pop.Solutions.Count; i++)
+            {
+                //crossover
+                e.Population.Solutions.Add(pop.Solutions[i]);
+                e.Population.Solutions.Add(evolveWithParents(pop.Solutions[i], pop.Solutions[i + 1]));
+                
+            }
 
 
         }
 
+        private static Chromosome evolveWithParents(Chromosome parent1, Chromosome parent2)
+        {
+            Random rand = new Random();
+            Chromosome child = new Chromosome();
+            Boolean valid = false;
+            //random crossover gene
 
+            for (int i = 0; i < groupsize * crossoverRate; i++)
+            {
+                while (valid == false)
+                {
+                    //random crossover point but allowing at least 2 genes from the sexond chromosone
+                    int firstAmount = rand.Next(groupsize - 2);
+
+                    child.Genes.AddRange(parent1.Genes.Take(firstAmount));
+                    child.Genes.AddRange(parent2.Genes.Take(groupsize - firstAmount));
+
+                    if (child.Genes.Distinct().Count() == child.Genes.Count())
+                    {
+                        valid = true;
+                        
+                    }
+                    
+                }
+
+                valid = false;
+            }
+
+            return child;
+
+            
+        }
 
         private static Student getStudentByNum(string sNum)
         {
@@ -663,5 +710,67 @@ namespace TeamBuildingApp
         {
             return students.Count;
         }
+
+        public void changePassword(string pass, Administrator admin)
+        {
+            admin.changePassword(pass, dbC.getConnection());
+        }
+
+        public bool checkPassword(Administrator admin, string pass)
+        {
+            return admin.checkPassword(pass);
+        }
+
+        public static Population clonePop(Population popOriginal)
+        {
+            Population popCloned = new Population();
+
+            foreach(Chromosome sol in popOriginal.Solutions)
+            {
+                popCloned.Solutions.Add(sol);
+            }
+
+            return popCloned;
+        }
+
+        public List<ClassCode> getClassCodes(Administrator admin)
+        {
+            List<ClassCode> codes = new List<ClassCode>();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM CLASSCODES WHERE ADMINISTRATOR_USERNAME = '" + admin.getUsername() + "'", dbC.getConnection());
+            cmd.Prepare();
+
+            MySqlDataReader read = cmd.ExecuteReader();
+
+
+            while (read.Read())
+            {
+                codes.Add(new ClassCode(read.GetString("Class_Code"), read.GetString("Administrator_Username"), read.GetString("Company_Name"), read.GetString("Class_Title")));
+
+            }
+            read.Close();
+            return codes;
+        }
+
+        public List<Administrator> getAdministrators(Administrator admin)
+        {
+
+            List<Administrator> adminL = new List<Administrator>();
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM ADMINISTRATORS WHERE COMPANY_NAME = '" + admin.companyName + "'", dbC.getConnection());
+            cmd.Prepare();
+
+            MySqlDataReader read = cmd.ExecuteReader();
+
+
+            while (read.Read())
+            {
+                adminL.Add(new Administrator(read.GetString("First_Name"), read.GetString("Second_Name"), read.GetString("Email_Address"), read.GetString("Company_Name")));
+
+            }
+            read.Close();
+            return adminL;
+        }
+    
     }
+
+
 }
