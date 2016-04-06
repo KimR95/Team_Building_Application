@@ -16,8 +16,7 @@ namespace TeamBuildingApp
         private MySqlConnection connectionDb;
 
         public DBConnection()
-        {
-                         
+        {                         
             try
             {
                 connectionDb = new MySqlConnection("Server = us-cdbr-azure-central-a.cloudapp.net; Port = 3306; Database = TBA_Database; Uid = bd96a30c09f4d0; Pwd = ab148145");
@@ -27,7 +26,6 @@ namespace TeamBuildingApp
             {
                 throw new Exception(e.Message);
             }
-
 
         }
 

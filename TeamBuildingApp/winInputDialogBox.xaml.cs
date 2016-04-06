@@ -23,7 +23,7 @@ namespace TeamBuildingApp
         Library lib;
         winGroupManagement winGroup;
         Loading load;
-        BackgroundWorker bw;
+       
 
         public winInputDialogBox(winGroupManagement wGM)
         {

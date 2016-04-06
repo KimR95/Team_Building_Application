@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Web;
+
 
 namespace TeamBuildingApp
 {
@@ -69,9 +69,10 @@ namespace TeamBuildingApp
                 answers.Add(new KeyValuePair<string, string>("Green", questions[i].getGreenAnswer()));
                 answers.Add(new KeyValuePair<string,string>("Yellow", questions[i].getYellowAnswer()));
 
+                //Randomly sort the answers 
                 Random rnd = new Random();                
                 answers = answers.OrderBy(x => rnd.Next()).ToList();
-
+               
                 tbQuestion.Text = questions[i].getQuestion();
                 tbAnswerA.Text = answers[0].Value;
                 tbAnswerB.Text = answers[1].Value;
@@ -115,6 +116,8 @@ namespace TeamBuildingApp
         {
             
             TextBlock tb = this.FindName(selectedAnswer) as TextBlock;
+            
+            
             //save result
             foreach(KeyValuePair<string, string> kvp in answers)
             {

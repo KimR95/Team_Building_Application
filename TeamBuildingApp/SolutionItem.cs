@@ -34,10 +34,10 @@ namespace TeamBuildingApp
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            System.Diagnostics.Debug.WriteLine("Update!"); //ok
+            System.Diagnostics.Debug.WriteLine("Update!"); 
             if (PropertyChanged != null)
             {
-                //PropertyChanged is always null and shouldn't.
+               
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }

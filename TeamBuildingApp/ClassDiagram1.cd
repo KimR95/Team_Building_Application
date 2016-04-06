@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TeamBuildingApp.Administrator" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAQAAGAQgAAAAAAoAAAAEEAQAAAAAACAgAAAkAAIEA=</HashCode>
+      <FileName>Administrator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.App" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.ClassCode" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAGAAAAAAAAAAAQ=</HashCode>
+      <FileName>ClassCode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.DBConnection" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAQAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>DBConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.Library" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBAFCICBsICaQAFAASgYAASAAiZAASAAQgAQBEgCRCE=</HashCode>
+      <FileName>Library.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.Loading" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Loading.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.MainWindow" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAgAAAAAAAAAAAgAAAAAAAQAAAAAAAAAAE=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.Question" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAARQQAAAAAAAEAAAABAAAAAQAAAAAUAAABAAAAgA=</HashCode>
+      <FileName>Question.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.SolutionItem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAABAAIAAAAAAAAQAgAAAACABAAAAAAACAAA=</HashCode>
+      <FileName>SolutionItem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" Collapsed="true" />
+  </Class>
+  <Class Name="TeamBuildingApp.Student" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAFAgAAAqCAAABAAAAAgAAAACIAEAAAAABA=</HashCode>
+      <FileName>Student.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winAdministrator" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAgAAgAAAAAAAQIAAEAAAAAAAAAAAEAAgA=</HashCode>
+      <FileName>winAdministrator.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winBalanceColour" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>winBalanceColour.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winGenerateCode" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAIAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>winGenerateCode.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winGroupManagement" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgIAiAABAAAAAAEAAAAAAAAwAAAAQgAAA=</HashCode>
+      <FileName>winGroupManagement.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winInputDialogBox" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAIAgAAAAAIAAAEAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>winInputDialogBox.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winLogin" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAABAAAgAAAgAwAAAAAAAJAAAAEAAAAAAAEACACABAA=</HashCode>
+      <FileName>winLogin.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winNewAdmin" Collapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAwAAAAAAAAAAAAAAAAAAAAAAAgAAAgAAA=</HashCode>
+      <FileName>winNewAdmin.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winPasswordChange" Collapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAEAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>winPasswordChange.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winQuestionaire" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACCAAAAAAgoA0AAAIAAAAAAARQAAAAKAAAAAAAAgA=</HashCode>
+      <FileName>winQuestionaire.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winViewAdmin" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAgAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>winViewAdmin.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.winViewCodes" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAgAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>winViewCodes.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.Properties.Resources" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamBuildingApp.Properties.Settings" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

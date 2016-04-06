@@ -16,7 +16,7 @@ namespace TeamBuildingApp
 {
     class Library
     {
-        private static int tries;
+        
         private static Library instance;
         private static DBConnection dbC;
         private static List<Question> questions;
@@ -335,7 +335,6 @@ namespace TeamBuildingApp
                 for (int k = 0; k <= students.Count - 1; k++)
                 {
                    
-
                     if (j < groupSize)
                     {
                         chromo.Genes.Add(new Gene(students[k].getStudentNum()));
@@ -346,12 +345,10 @@ namespace TeamBuildingApp
                         pop.Solutions.Add(chromo);
                         chromo = new Chromosome();
                         j = 0;
-                        k = (k == 15) ? k : k - 1;
+                        k = (k == students.Count) ? k : k - 1;
 
                     }
                 }
-
-
             }
 
             return pop;
@@ -362,22 +359,10 @@ namespace TeamBuildingApp
         private void createOperatorsAndAlgorithm(Population pop)
         {
             
-
-            Crossover cr = new Crossover(0.7, false);
-            cr.CrossoverType = CrossoverType.DoublePoint;
-
-            //BinaryMutate mutate = new BinaryMutate(0.3, true);
-
             GeneticAlgorithm genA = new GeneticAlgorithm(pop, calculateFitness);
 
-
             genA.OnGenerationComplete += genA_OnGenerationComplete;
-            genA.OnRunComplete += genA_OnRunComplete;
-
-            //add the operators
-            
-            genA.Operators.Add(cr);
-            //genA.Operators.Add(mutate);
+            genA.OnRunComplete += genA_OnRunComplete;                     
 
             //run the GA
             genA.Run(genTerminate);
@@ -388,14 +373,9 @@ namespace TeamBuildingApp
         private static double calculateFitness(Chromosome chromo)
         {
 
-            int red = 0;
-            int blue = 0;
-            int green = 0;
-            int yellow = 0;
+            int red = 0; int blue = 0; int green = 0; int yellow = 0;
             int score = 100;
-
-
-
+            
             //Count the instances of colours
             foreach (Gene g in chromo)
             {
@@ -409,43 +389,40 @@ namespace TeamBuildingApp
                     case "Yellow": yellow += 1; break;
                 }
 
-
-
-
             }
 
-            //balancing formula -- based on idea that one of each is perfect. 
+
+            //balancing formula
 
 
             if (red > System.Math.Round(chromo.Count * (red_allowance / 100)))
             {
                 //for every extra red a penalty of 4 - 4 being the worst penalty
-                int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (red_allowance / 100)));
-                score = score - (allowance * 4);
-
-
+                int extra = red - Convert.ToInt16(System.Math.Round(chromo.Count * (red_allowance / 100)));
+                score = score - (extra * 4);
             }
+
 
             if (yellow > System.Math.Round(chromo.Count * (yellow_allowance / 100)))
             {
                 //for every extra red a penalty of 5 - 5 being the worst penalty                
-                int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (yellow_allowance / 100)));
-                score = score - (allowance * 3);
+                int extra = yellow - Convert.ToInt16(System.Math.Round(chromo.Count * (yellow_allowance / 100)));
+                score = score - (extra * 3);
             }
 
             if (blue > System.Math.Round(chromo.Count * (blue_allowance / 100)))
             {
                 //for every extra blue a penalty of 2
-                int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (blue_allowance / 100)));
-                score = score - (allowance * 2);
+                int extra = blue - Convert.ToInt16(System.Math.Round(chromo.Count * (blue_allowance / 100)));
+                score = score - (extra * 2);
 
             }
 
             if (green > System.Math.Round(chromo.Count * (green_allowance / 100)))
             {
                 //for every extra blue a penalty of 2
-                int allowance = Convert.ToInt16(System.Math.Round(chromo.Count * (green_allowance / 100)));
-                score = score - (allowance * 2);
+                int extra = green - Convert.ToInt16(System.Math.Round(chromo.Count * (green_allowance / 100)));
+                score = score - (extra * 2);
 
             }
 
@@ -453,8 +430,7 @@ namespace TeamBuildingApp
             int penaltiesBlue = ((blue + green) / 2 * 5) + ((blue + yellow) / 2 * 6);
             int penaltiesGreen = ((green + yellow) / 2 * 3);
             score = score - (penalties + penaltiesBlue + penaltiesGreen);
-            tries += 1;
-            //Console.WriteLine(chromo.Id + "Fitness: " + score);
+                    
             return score;
         }
 
@@ -504,17 +480,16 @@ namespace TeamBuildingApp
 
             Chromosome highFitness = null;
             double average = 0;
+
             List<string> strings = students.Select(s => (string)s.getStudentNum()).ToList();
 
 
             for (int j = 0; j < students.Count; j++)
             {
-
                 foreach (Student stud in studentsQueue)
                 {
                     if ((students.Count - existingStudents.Count) == groupsize)
                     {
-
                         List<string> trial = strings.Except(existingStudents).ToList();
                         Chromosome chromo = new Chromosome();
                         foreach (string st in trial)
@@ -524,16 +499,14 @@ namespace TeamBuildingApp
                         chromo.Evaluate(calculateFitness);
                         group.Add(new KeyValuePair<Chromosome,double>(chromo, chromo.Fitness));
                         break;
-                    }
-
-                   
+                    }                   
 
                     if (existingStudents.Contains(stud.getStudentNum()) == false)
                     {
                         foreach (Chromosome c in e.Population.Solutions)
                         {
-                            List<String> words = c.ToString().Split(' ').ToList();
-                            if (existingStudents.Any(item => words.Contains(item)) == false & words.Contains(stud.getStudentNum()) == true)
+                            List<String> geneStudents = c.ToString().Split(' ').ToList();
+                            if (existingStudents.Any(item => geneStudents.Contains(item)) == false & geneStudents.Contains(stud.getStudentNum()) == true)
                             {
 
                                 if (highFitness == null || c.Fitness > highFitness.Fitness)
@@ -553,7 +526,6 @@ namespace TeamBuildingApp
                             {
                                 Student st = getStudentByNum(s.ObjectValue.ToString());
                                 existingStudents.Add(st.getStudentNum());
-
                             }
 
                             group.Add(new KeyValuePair<Chromosome, double>(highFitness, highFitness.Fitness));
@@ -568,15 +540,12 @@ namespace TeamBuildingApp
                 {
                     average += c.Value;
                 }
-
                 
                 average = average / group.Count;
-                Console.WriteLine(average);
-
-
+                
+                
                 if (groupStructures.Any(x => x.Key.ToString() == group.Any().ToString()) == false)
                 {
-
                    
                     groupStructures.Add(new KeyValuePair<List<KeyValuePair<Chromosome,double>>,double>(group,average));
 
@@ -586,16 +555,13 @@ namespace TeamBuildingApp
                 group = new List<KeyValuePair<Chromosome, double>>();
                 existingStudents.Clear();
 
-
-
                 studentsQueue.Enqueue(studentsQueue.Dequeue());
             }
 
-            //writeToFile(groupStructures);
+           
 
             KeyValuePair<List<KeyValuePair<Chromosome,double>>, double> highest = groupStructures.MaxBy(t => t.Value);
-            elite.Add(new KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>(highest.Key, highest.Value));
-            
+            elite.Add(new KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>(highest.Key, highest.Value));            
 
              
             e.Population.Solutions.Sort();
@@ -719,6 +685,11 @@ namespace TeamBuildingApp
         public bool checkPassword(Administrator admin, string pass)
         {
             return admin.checkPassword(pass);
+        }
+
+        public bool checkPasswordChange(Administrator admin)
+        {
+            return admin.checkPasswordChange();
         }
 
         public static Population clonePop(Population popOriginal)

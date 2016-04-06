@@ -126,9 +126,7 @@ namespace TeamBuildingApp
             catch(Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-
-            
+            }            
         }
               
         
@@ -139,9 +137,8 @@ namespace TeamBuildingApp
             rng.GetBytes(buff);
 
             return Convert.ToBase64String(buff);
-
-
         }
+
 
         public String generateHash(String input, String salt)
         {
@@ -151,8 +148,8 @@ namespace TeamBuildingApp
 
             return ByteArrayToHexString(hash);
 
-
         }
+
 
         private string ByteArrayToHexString(byte[] hash)
         {
@@ -162,16 +159,18 @@ namespace TeamBuildingApp
             return hex.ToString();
         }
 
+
         public Boolean checkPassword(string pword)
         {
             if (this.password == generateHash(pword, salt))
             {
                 return true;
             }
-            return false;
-
-        
+            return false;        
         }
+
+
+
 
         public String getUsername()
         {

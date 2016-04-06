@@ -42,44 +42,47 @@ namespace TeamBuildingApp
 
         private void lstViewStudents_Selected(object sender, SelectionChangedEventArgs e)
         {
+
             if (mode == "Swap")
             {
-                if (lstViewStudents.SelectedItems.Count > 2)
+                if (lstViewStudents.SelectedItems.Count != 1)
                 {
-
-                    System.Windows.MessageBox.Show("Only two items can be swapped at a time.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    lstViewStudents.SelectedItems.Clear();
-                }
-                else if(lstViewStudents.SelectedItems.Count == 2)
-                {
-
-                    SolutionItem v1 = (SolutionItem)lstViewStudents.SelectedItems[0];
-                    SolutionItem v2 = (SolutionItem)lstViewStudents.SelectedItems[1];
-
-                    string messageBox = "Do you wish to swap " + v1.StudentID + " " + v1.StudentName + " and " + v2.StudentID + " " + v2.StudentName + " ?";
-
-                    if (MessageBox.Show(messageBox, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (lstViewStudents.SelectedItems.Count > 2)
                     {
-                        if (v1.PColour == v2.PColour && v1.SColour == v2.SColour)
+
+                        System.Windows.MessageBox.Show("Only two items can be swapped at a time.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        lstViewStudents.SelectedItems.Clear();
+                    }
+                    else if (lstViewStudents.SelectedItems.Count == 2)
+                    {
+
+                        SolutionItem v1 = (SolutionItem)lstViewStudents.SelectedItems[0];
+                        SolutionItem v2 = (SolutionItem)lstViewStudents.SelectedItems[1];
+
+                        string messageBox = "Do you wish to swap " + v1.StudentID + " " + v1.StudentName + " and " + v2.StudentID + " " + v2.StudentName + " ?";
+
+                        if (MessageBox.Show(messageBox, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                         {
-                            string v1GroupTitle = v1.GroupTitle;
-                            string v2GroupTitle = v2.GroupTitle;
+                            if (v1.PColour == v2.PColour && v1.SColour == v2.SColour)
+                            {
+                                string v1GroupTitle = v1.GroupTitle;
+                                string v2GroupTitle = v2.GroupTitle;
 
-                            SolutionItem result1 = solutionItems.Single(s => s.StudentID == v1.StudentID);
-                            SolutionItem result2 = solutionItems.Single(s => s.StudentID == v2.StudentID);
+                                SolutionItem result1 = solutionItems.Single(s => s.StudentID == v1.StudentID);
+                                SolutionItem result2 = solutionItems.Single(s => s.StudentID == v2.StudentID);
 
-                            result2.GroupTitle = v1GroupTitle;
-                            result1.GroupTitle =v2GroupTitle;                                                    
-                            
-                            view.Refresh();
-                            btnSwap_Click(sender, e);
+                                result2.GroupTitle = v1GroupTitle;
+                                result1.GroupTitle = v2GroupTitle;
+
+                                view.Refresh();
+                                btnSwap_Click(sender, e);
+                            }
                         }
                     }
-                }
 
-                foreach (ListViewItem i in lstViewStudents.SelectedItems)
-                {
-                    i.IsSelected = false;
+
+                    lstViewStudents.UnselectAll();
+
                 }
             }
         }

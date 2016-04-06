@@ -75,9 +75,13 @@ namespace TeamBuildingApp
             setResults(red, blue, green, yellow);                           
             
 
-            MySqlCommand cmd = new MySqlCommand("INSERT INTO STUDENTS(RED_RESULTS, BLUE_RESULTS, GREEN_RESULTS, YELLOW_RESULTS) VALUES('"
-                + red + "','" + blue + "','" + green + "','" + yellow + "')",this.connect);
-
+            MySqlCommand cmd = new MySqlCommand("UPDATE STUDENTS SET RED_RESULTS = @val1, BLUE_RESULTS =@val2, GREEN_RESULTS = @val3, YELLOW_RESULTS = @val4 WHERE STUDENT_NO = '@val5'",this.connect);
+            cmd.Parameters.AddWithValue("@val1", red);
+            cmd.Parameters.AddWithValue("@val2", blue);
+            cmd.Parameters.AddWithValue("@val3", green);
+            cmd.Parameters.AddWithValue("@val4", yellow);
+            cmd.Parameters.AddWithValue("@val5", this.studentNo);
+            
             MySqlDataReader read = cmd.ExecuteReader();
             read.Close();
 
