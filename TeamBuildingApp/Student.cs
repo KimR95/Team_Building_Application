@@ -9,7 +9,7 @@ using MySql.Data.MySqlClient;
 
 namespace TeamBuildingApp
 {
-    class Student
+    public class Student
     {
         string studentNo;
         string firstName;
@@ -124,6 +124,10 @@ namespace TeamBuildingApp
             return this.firstName + " " + this.secondName; 
         }
 
+        public String getCode()
+        {
+            return this.classCode;
+        }
       
     
     }

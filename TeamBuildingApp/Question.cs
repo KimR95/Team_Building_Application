@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TeamBuildingApp
 {
-    class Question
+    public class Question
     {
         string id;
         string question;

@@ -14,9 +14,9 @@ using MoreLinq;
 
 namespace TeamBuildingApp
 {
-    class Library
+    public class Library
     {
-        
+
         private static Library instance;
         private static DBConnection dbC;
         private static List<Question> questions;
@@ -24,7 +24,7 @@ namespace TeamBuildingApp
 
         private static List<Student> students;
         private static List<KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>> elite;
-        private static List<KeyValuePair<List<Student>, double>> solutions; 
+        private static List<KeyValuePair<List<Student>, double>> solutions;
 
         private static double red_allowance;
         private static double blue_allowance;
@@ -64,7 +64,7 @@ namespace TeamBuildingApp
 
             red_allowance = 25; blue_allowance = 25; green_allowance = 25; yellow_allowance = 25;
 
-            tries = 0; 
+
         }
         public String connectToDb()
         {
@@ -188,7 +188,7 @@ namespace TeamBuildingApp
             }
 
             cmd = new MySqlCommand("INSERT INTO CLASSCODES(CLASS_CODE, CLASS_TITLE, COMPANY_NAME, ADMINISTRATOR_USERNAME)VALUES('" + code + "','" + classTitle + "','" + admin.companyName + "','" + admin.getUsername() + "')", dbC.getConnection());
-           
+
 
             try
             {
@@ -245,7 +245,7 @@ namespace TeamBuildingApp
         public Student addStudent(string no, string fname, string sname, string classcode)
         {
             stud = new Student(no, fname, sname, classcode, dbC.getConnection());
-            return stud; 
+            return stud;
         }
 
         public void completedResults(int red, int blue, int green, int yellow)
@@ -275,10 +275,10 @@ namespace TeamBuildingApp
             if (checkCode(classCode) == false) { return "Class Code Error"; }
 
             //get students from the db
-            if (students.Count == 0) { students = createStudents(classCode);  }
+            if (students.Count == 0) { students = createStudents(classCode); }
 
             if (students.Count % groupsize != 0) { return ("Group Size Error"); }
-            
+
 
             //create population from the available students
             Population pop = createPopulation(students, groupSize);
@@ -288,11 +288,12 @@ namespace TeamBuildingApp
 
             //format groupstructure
 
+            Console.WriteLine("Human Test: " + this.humanRoundRobin(groupsize));
             return message;
 
         }
 
-        public List<KeyValuePair<List<Student>,double>> getSolutionsList()
+        public List<KeyValuePair<List<Student>, double>> getSolutionsList()
         {
             return solutions;
         }
@@ -303,19 +304,22 @@ namespace TeamBuildingApp
 
         private List<Student> createStudents(string classCode)
         {
-
-            MySqlCommand cmd = new MySqlCommand("SELECT * FROM STUDENTS WHERE CLASS_CODE = '" + classCode + "'", dbC.getConnection());
-            MySqlDataReader read = cmd.ExecuteReader();
-
-            while (read.Read())
+            if (students.Count() == 0 || students[0].getCode() != classCode)
             {
-                students.Add(new Student(read.GetString("Student_no"), read.GetString("First_Name"), read.GetString("Second_Name"), classCode,
-                    read.GetInt32("Red_Results"), read.GetInt32("Blue_Results"), read.GetInt32("Green_Results"), read.GetInt32("Yellow_Results"),
-                    read.GetString("Primary_Colour"), read.GetString("Secondary_Colour")));
+                students.Clear();
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM STUDENTS WHERE CLASS_CODE = '" + classCode + "'", dbC.getConnection());
+                MySqlDataReader read = cmd.ExecuteReader();
 
+                while (read.Read())
+                {
+                    students.Add(new Student(read.GetString("Student_no"), read.GetString("First_Name"), read.GetString("Second_Name"), classCode,
+                        read.GetInt32("Red_Results"), read.GetInt32("Blue_Results"), read.GetInt32("Green_Results"), read.GetInt32("Yellow_Results"),
+                        read.GetString("Primary_Colour"), read.GetString("Secondary_Colour")));
+
+                }
+
+                read.Close();
             }
-
-            read.Close();
 
             return students;
         }
@@ -334,7 +338,7 @@ namespace TeamBuildingApp
 
                 for (int k = 0; k <= students.Count - 1; k++)
                 {
-                   
+
                     if (j < groupSize)
                     {
                         chromo.Genes.Add(new Gene(students[k].getStudentNum()));
@@ -358,11 +362,11 @@ namespace TeamBuildingApp
 
         private void createOperatorsAndAlgorithm(Population pop)
         {
-            
+
             GeneticAlgorithm genA = new GeneticAlgorithm(pop, calculateFitness);
 
             genA.OnGenerationComplete += genA_OnGenerationComplete;
-            genA.OnRunComplete += genA_OnRunComplete;                     
+            genA.OnRunComplete += genA_OnRunComplete;
 
             //run the GA
             genA.Run(genTerminate);
@@ -375,7 +379,7 @@ namespace TeamBuildingApp
 
             int red = 0; int blue = 0; int green = 0; int yellow = 0;
             int score = 100;
-            
+
             //Count the instances of colours
             foreach (Gene g in chromo)
             {
@@ -430,7 +434,7 @@ namespace TeamBuildingApp
             int penaltiesBlue = ((blue + green) / 2 * 5) + ((blue + yellow) / 2 * 6);
             int penaltiesGreen = ((green + yellow) / 2 * 3);
             score = score - (penalties + penaltiesBlue + penaltiesGreen);
-                    
+
             return score;
         }
 
@@ -442,7 +446,7 @@ namespace TeamBuildingApp
                 message = elite.Count != 0 ? message : "No Structure Found";
                 return true;
             }
-            
+
             return false;
         }
 
@@ -467,7 +471,7 @@ namespace TeamBuildingApp
 
             }
             solutionAverage = highest.Value;
-            
+
 
         }
 
@@ -490,6 +494,7 @@ namespace TeamBuildingApp
                 {
                     if ((students.Count - existingStudents.Count) == groupsize)
                     {
+
                         List<string> trial = strings.Except(existingStudents).ToList();
                         Chromosome chromo = new Chromosome();
                         foreach (string st in trial)
@@ -497,9 +502,9 @@ namespace TeamBuildingApp
                             chromo.Genes.Add(new Gene(st));
                         }
                         chromo.Evaluate(calculateFitness);
-                        group.Add(new KeyValuePair<Chromosome,double>(chromo, chromo.Fitness));
+                        group.Add(new KeyValuePair<Chromosome, double>(chromo, chromo.Fitness));
                         break;
-                    }                   
+                    }
 
                     if (existingStudents.Contains(stud.getStudentNum()) == false)
                     {
@@ -535,46 +540,51 @@ namespace TeamBuildingApp
                     }
 
                 }
-
-                foreach (KeyValuePair<Chromosome,double> c in group)
+                if (group.Count == studentsQueue.Count / groupsize)
                 {
-                    average += c.Value;
-                }
-                
-                average = average / group.Count;
-                
-                
-                if (groupStructures.Any(x => x.Key.ToString() == group.Any().ToString()) == false)
-                {
-                   
-                    groupStructures.Add(new KeyValuePair<List<KeyValuePair<Chromosome,double>>,double>(group,average));
+                    foreach (KeyValuePair<Chromosome, double> c in group)
+                    {
+                        average += c.Value;
+                    }
 
-                }
+                    average = average / group.Count;
 
-                average = 0;
-                group = new List<KeyValuePair<Chromosome, double>>();
-                existingStudents.Clear();
+
+                    if (groupStructures.Any(x => x.Key.ToString() == group.Any().ToString()) == false)
+                    {
+
+                        groupStructures.Add(new KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>(group, average));
+
+                    }
+
+                    average = 0;
+                    group = new List<KeyValuePair<Chromosome, double>>();
+                    existingStudents.Clear();
+                }
 
                 studentsQueue.Enqueue(studentsQueue.Dequeue());
+
             }
 
-           
+            if (groupStructures.Count != 0)
+            {
+                Console.WriteLine("Success");
+                KeyValuePair<List<KeyValuePair<Chromosome, double>>, double> highest = groupStructures.MaxBy(t => t.Value);
+                elite.Add(new KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>(highest.Key, highest.Value));
+            }
 
-            KeyValuePair<List<KeyValuePair<Chromosome,double>>, double> highest = groupStructures.MaxBy(t => t.Value);
-            elite.Add(new KeyValuePair<List<KeyValuePair<Chromosome, double>>, double>(highest.Key, highest.Value));            
 
-             
             e.Population.Solutions.Sort();
             Population pop = new Population();
             pop = clonePop(e.Population);
             e.Population.Solutions.Clear();
 
-            for (int i = 0; i < 0.5*pop.Solutions.Count; i++)
+            for (int i = 0; i < 0.5 * pop.Solutions.Count; i++)
             {
                 //crossover
                 e.Population.Solutions.Add(pop.Solutions[i]);
                 e.Population.Solutions.Add(evolveWithParents(pop.Solutions[i], pop.Solutions[i + 1]));
-                
+
             }
 
 
@@ -600,9 +610,9 @@ namespace TeamBuildingApp
                     if (child.Genes.Distinct().Count() == child.Genes.Count())
                     {
                         valid = true;
-                        
+
                     }
-                    
+
                 }
 
                 valid = false;
@@ -610,7 +620,7 @@ namespace TeamBuildingApp
 
             return child;
 
-            
+
         }
 
         private static Student getStudentByNum(string sNum)
@@ -629,12 +639,12 @@ namespace TeamBuildingApp
         }
 
 
-        private static void writeToFile(List<KeyValuePair<List<Chromosome>,double>> groups)
+        private static void writeToFile(List<KeyValuePair<List<Chromosome>, double>> groups)
         {
             string path = @"MyTest.txt";
             string lines = "\n Group Structure: ";
 
-           
+
             foreach (KeyValuePair<List<Chromosome>, double> kvp in groups)
             {
                 foreach (Chromosome chr in kvp.Key)
@@ -642,17 +652,17 @@ namespace TeamBuildingApp
                     lines += chr.ToString();
                 }
 
-                lines += " Average: " + kvp.Value + '\n'; 
+                lines += " Average: " + kvp.Value + '\n';
             }
 
             if (!File.Exists(path))
             {
-                
+
                 using (StreamWriter sw = File.CreateText(path))
                 {
                     sw.WriteLine(lines);
                     sw.Close();
-                   
+
                 }
             }
             else
@@ -661,15 +671,15 @@ namespace TeamBuildingApp
                 {
                     sw.WriteLine(lines);
                     sw.Close();
-                   
-                }	
+
+                }
             }
-         
 
-            
-            
 
-            
+
+
+
+
         }
 
         public int getStudentSize()
@@ -696,7 +706,7 @@ namespace TeamBuildingApp
         {
             Population popCloned = new Population();
 
-            foreach(Chromosome sol in popOriginal.Solutions)
+            foreach (Chromosome sol in popOriginal.Solutions)
             {
                 popCloned.Solutions.Add(sol);
             }
@@ -740,7 +750,66 @@ namespace TeamBuildingApp
             read.Close();
             return adminL;
         }
-    
+
+        public String humanRoundRobin(int groupsize)
+        {
+            Console.WriteLine("ROUND ROBIN");
+            Population roundRobin = new Population();
+            List<Student> studs = this.createStudents("TestCode");
+            List<Gene> red = new List<Gene>();
+            List<Gene> blue = new List<Gene>();
+            List<Gene> green = new List<Gene>();
+            List<Gene> yellow = new List<Gene>();
+
+            foreach (Student s in studs)
+            {
+                switch (s.getPrimary())
+                {
+                    case "Red": red.Add(new Gene(s.getStudentNum())); break;
+                    case "Blue": blue.Add(new Gene(s.getStudentNum())); break;
+                    case "Green": green.Add(new Gene(s.getStudentNum())); break;
+                    case "Yellow": yellow.Add(new Gene(s.getStudentNum())); break;
+                }
+            }
+
+            int redP = 0; int blueP = 0; int greenP = 0; int yellowP = 0;
+
+            for (int i = 0; i < studs.Count() / groupsize; i++)
+            {
+                Chromosome c = new Chromosome();
+
+                for (int j = 0; c.Genes.Count() < groupsize; j++)
+                {
+                    if (redP < red.Count()) { c.Genes.Add(red[redP]); redP += 1; }
+                    if (blueP < blue.Count() && c.Genes.Count() < groupsize) { c.Genes.Add(blue[blueP]); blueP += 1; }
+                    if (greenP < green.Count() && c.Genes.Count() < groupsize) { c.Genes.Add(green[greenP]); greenP += 1; }
+                    if (yellowP < yellow.Count() && c.Genes.Count() < groupsize) { c.Genes.Add(yellow[yellowP]); yellowP += 1; }
+
+                }
+
+                roundRobin.Solutions.Add(c);
+            }
+
+
+           
+            string result = "";
+
+
+            foreach (Chromosome c in roundRobin.Solutions)
+            {
+                result += "\n Group: " + roundRobin.Solutions.IndexOf(c);
+
+                foreach (Gene g in c)
+                {
+                    result += " - " + getStudentByNum(g.ObjectValue.ToString()).getPrimary();
+                }
+
+                result += " Fitness: " + calculateFitness(c);
+
+            }         
+
+            return result;
+        }
     }
 
 

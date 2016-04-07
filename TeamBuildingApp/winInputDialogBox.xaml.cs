@@ -30,10 +30,7 @@ namespace TeamBuildingApp
             
             InitializeComponent();
             lib = Library.Instance;
-            winGroup = wGM;
-          
-            
-           
+            winGroup = wGM;   
 
            
         }
