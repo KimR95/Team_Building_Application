@@ -1,7 +1,7 @@
 ﻿<Window x:Class="TeamBuildingApp.Loading"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Loading" Height="201.6" Width="365.6" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True">
+        Title="Loading" Height="201.6" Width="365.6" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True" Icon="iconTransparent.png">
     <Grid Background="#FFC5D7F8" Margin="0,0,0.4,0">
         <Grid HorizontalAlignment="Left" Height="182" Margin="10,10,0,0" VerticalAlignment="Top" Width="345" Background="White">
             <ProgressBar x:Name="progLoad" HorizontalAlignment="Left" Height="23" Margin="33,88,0,0" VerticalAlignment="Top" Width="285" Maximum="4" Background="{x:Null}" Value="1">

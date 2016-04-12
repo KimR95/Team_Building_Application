@@ -97,6 +97,9 @@
     <Compile Include="winGroupManagement.xaml.cs">
       <DependentUpon>winGroupManagement.xaml</DependentUpon>
     </Compile>
+    <Compile Include="winHelp.xaml.cs">
+      <DependentUpon>winHelp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="winInputDialogBox.xaml.cs">
       <DependentUpon>winInputDialogBox.xaml</DependentUpon>
     </Compile>
@@ -147,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="winGroupManagement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winHelp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

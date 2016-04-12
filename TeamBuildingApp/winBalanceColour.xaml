@@ -13,7 +13,7 @@
             <Label Content="Green" HorizontalAlignment="Left" Height="40" Margin="45,151,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.357,0.687" FontSize="25" Foreground="#FF2C932C"/>
             <Label Content="Yellow" HorizontalAlignment="Left" Height="40" Margin="45,196,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.357,0.687" FontSize="25" Foreground="#FFF6EF00"/>
             <Slider x:Name="sliderYellow" HorizontalAlignment="Left" Margin="164,210,0,0" VerticalAlignment="Top" Height="26" Width="242" TickPlacement="BottomRight" TickFrequency="25" SmallChange="25" Minimum="25" Maximum="100" Foreground="Black"/>
-            <Label x:Name="lblHelp" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="46" Margin="447,5,0,0" VerticalAlignment="Top" Width="55" FontSize="32" Foreground="#FF3E00FF" FontWeight="Bold" ToolTip="Click for help."/>
+            <Button x:Name="lblHelp" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="46" Margin="447,5,0,0" VerticalAlignment="Top" Width="55" FontSize="32" Foreground="#FF3E00FF" FontWeight="Bold" ToolTip="Click for help." Background="{x:Null}" BorderBrush="{x:Null}" Click="lblHelp_Click"/>
             <Button x:Name="btnConfirm" Content="Confirm" Height="42" Margin="228,265,160,0" VerticalAlignment="Top" FontSize="18" Background="White" BorderBrush="#FFC5D7F8" BorderThickness="5" Click="btnConfirm_Click"/>
         </Grid>
 

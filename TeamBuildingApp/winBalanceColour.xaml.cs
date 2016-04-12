@@ -35,6 +35,13 @@ namespace TeamBuildingApp
             this.Close();
         }
 
+        private void lblHelp_Click(object sender, RoutedEventArgs e)
+        {
+            winHelp help = new winHelp();
+            help.Show();
+
+        }
+
         
     }
 }
