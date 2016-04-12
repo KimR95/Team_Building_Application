@@ -87,7 +87,7 @@ namespace TeamBuildingApp
                    foreach (Student stud in kvp.Key)
                    {
 
-                       sitems.Add(new SolutionItem { StudentID = stud.getStudentNum(), StudentName = stud.getName(), PColour = stud.getPrimary(), SColour = stud.getSecondary(), GroupTitle = "Group " + i + "\t  Fitness Average: " + kvp.Value });
+                       sitems.Add(new SolutionItem { StudentID = stud.getStudentNum(), StudentName = stud.getName(), PColour = stud.getPrimary(), SColour = stud.getSecondary(), GroupTitle = "Group " + i + "\t  Fitness Average: " + kvp.Value, ClassCode = txtClassCode.Text });
                    }
 
                }

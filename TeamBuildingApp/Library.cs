@@ -10,7 +10,8 @@ using GAF;
 using GAF.Extensions;
 using GAF.Operators;
 using MoreLinq;
-
+using System.Diagnostics;
+using DTG.Spreadsheet;
 
 namespace TeamBuildingApp
 {
@@ -639,47 +640,33 @@ namespace TeamBuildingApp
         }
 
 
-        private static void writeToFile(List<KeyValuePair<List<Chromosome>, double>> groups)
+        public void writeToFile(List<SolutionItem> groups)
         {
-            string path = @"MyTest.txt";
-            string lines = "\n Group Structure: ";
+            ExcelWorkbook Wbook = ExcelWorkbook.ReadXLS("Excel_Format.xls");
+            ExcelCellCollection Cells = Wbook.Worksheets[0].Cells;
 
+            
+            int j = 4; 
 
-            foreach (KeyValuePair<List<Chromosome>, double> kvp in groups)
+            foreach (SolutionItem stud in groups)
             {
-                foreach (Chromosome chr in kvp.Key)
-                {
-                    lines += chr.ToString();
-                }
+                Cells["A" + j].Value = stud.GroupTitle.Split('\t')[0];
+                Cells["B" + j].Value = stud.StudentID;
+                Cells["C" + j].Value = stud.StudentName;
+                Cells["D" + j].Value = stud.ClassCode;
+                Cells["E" + j].Value = stud.PColour;
+                Cells["F" + j].Value = stud.SColour;
+                Cells["G" + j].Value = stud.GroupTitle.Split(':')[1];
 
-                lines += " Average: " + kvp.Value + '\n';
+                j += 1; 
             }
+                
+            Wbook.WriteXLS("Excel_Format.xls");
+            
+          
 
-            if (!File.Exists(path))
-            {
-
-                using (StreamWriter sw = File.CreateText(path))
-                {
-                    sw.WriteLine(lines);
-                    sw.Close();
-
-                }
-            }
-            else
-            {
-                using (StreamWriter sw = File.AppendText(path))
-                {
-                    sw.WriteLine(lines);
-                    sw.Close();
-
-                }
-            }
-
-
-
-
-
-
+            
+            
         }
 
         public int getStudentSize()

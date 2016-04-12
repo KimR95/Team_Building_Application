@@ -55,7 +55,7 @@ namespace TeamBuildingApp
         private void btnViewGroupSolutions_Click(object sender, RoutedEventArgs e)
         {
 
-            winGroupManagement wGM = new winGroupManagement();
+            winGroupManagement wGM = new winGroupManagement(admin);
             wGM.Show();
             this.Close();
 

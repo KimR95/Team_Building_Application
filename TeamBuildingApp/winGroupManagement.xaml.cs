@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace TeamBuildingApp
 {
@@ -24,12 +25,14 @@ namespace TeamBuildingApp
         string mode;
         List<SolutionItem> solutionItems;
         CollectionView view;
+        Administrator admin;
         
-        public winGroupManagement()
+        public winGroupManagement(Administrator a)
         {
             InitializeComponent();
             lib = Library.Instance;
             solutionItems = null;
+            admin = a;
            
           
         }
@@ -125,23 +128,20 @@ namespace TeamBuildingApp
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            if(MessageBox.Show("Would you like to save this group solution?", "Saving", MessageBoxButton.YesNo)== MessageBoxResult.Yes)
+            if(MessageBox.Show("Would you like to save this group solution?", "Saving", MessageBoxButton.YesNo, MessageBoxImage.Question)== MessageBoxResult.Yes)
             {
-                //Write to file - possible excel file.
-                //Conditional Formatted template.
+                lib.writeToFile(solutionItems);
+
+                MessageBox.Show("Solution has been formatted. The file will now be opened, please save in your local directory using File -> Save As.", "Completion", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Topmost = false; 
+                Process.Start("Excel_Format.xls").WaitForExit();
+                winAdministrator adminW = new winAdministrator(admin);
+                adminW.Show();
+
             }
 
             this.Close();
         }
 
-     
-
-
-
-     
-
-       
-
-           
     }
 }
